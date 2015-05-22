@@ -9,7 +9,7 @@ public class HelloWorld {
 	}
 
 	public String getMessage() {
-		System.out.println("test");
+		System.out.println("test2");
 		return message;
 	}
 }
