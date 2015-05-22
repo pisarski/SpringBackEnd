@@ -9,6 +9,7 @@ public class HelloWorld {
 	}
 
 	public String getMessage() {
+		System.out.println("test CI");
 		return message;
 	}
 }
