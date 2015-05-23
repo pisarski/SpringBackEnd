@@ -86,8 +86,12 @@
 				<version>1.10.19</version>
 				<scope>test</scope>
 			</dependency>
-
-
+			<dependency>
+				<groupId>ru.yandex.qatools.allure</groupId>
+				<artifactId>allure-junit-adaptor</artifactId>
+				<version>1.4.11</version>
+				<scope>test</scope>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -117,7 +121,10 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>ru.yandex.qatools.allure</groupId>
+			<artifactId>allure-junit-adaptor</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -133,6 +140,30 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.8.5/aspectjweaver-1.8.5.jar"
+					</argLine>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>ru.yandex.qatools.allure.junit.AllureRunListener</value>
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>1.8.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
@@ -145,6 +176,18 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<reporting>
+		<excludeDefaults>true</excludeDefaults>
+		<plugins>
+			<plugin>
+				<groupId>ru.yandex.qatools.allure</groupId>
+				<artifactId>allure-maven-plugin</artifactId>
+				<version>2.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<modules>
 		<module>webapp</module>
