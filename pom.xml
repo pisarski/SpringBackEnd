@@ -38,7 +38,7 @@
 				<version>2.2</version>
 				<configuration>
 					<url>http://tomcat-pisarski.rhcloud.com/manager/text</url>
-					<server>SpringBackEnd</server>
+					<server>SpringSampleApp</server>
 					<path>/SpringSampleApp</path>
 					<warDirectory>webapp/target</warDirectory>
 				</configuration>
