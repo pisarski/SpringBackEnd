@@ -2,7 +2,7 @@ package com.lumesse.repository;
 
 import java.util.List;
 
-import com.lumesse.Spittle;
+import com.lumesse.entity.Spittle;
 
 public interface SpittleRepository {
 

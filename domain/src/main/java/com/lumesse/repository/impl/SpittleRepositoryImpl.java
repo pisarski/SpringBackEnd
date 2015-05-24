@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
-import com.lumesse.Spittle;
+import com.lumesse.entity.Spittle;
 import com.lumesse.repository.SpittleRepository;
 
 @Repository
