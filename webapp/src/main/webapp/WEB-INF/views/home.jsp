@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>Welcome to Spittr - Signum test</h1>
+	<h1>Tomek/h1>
 	
 	<a href="<c:url value="/spittle/list" />">Spittles</a> |
 	<a href="<c:url value="/spitter/register" />">Register</a>
