@@ -221,7 +221,7 @@
 						<configuration>
 							<failOnError>false</failOnError>
 
-							<effort>Default</effort><!-- Min, Default, Max -->
+							<effort>Min</effort><!-- Min, Default, Max -->
 							<threshold>Default</threshold><!-- High, Default, Low, Ignore -->
 
 							<xmlOutput>true</xmlOutput>
