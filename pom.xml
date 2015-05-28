@@ -204,6 +204,8 @@
 						</executions>
 						<configuration>
 							<linkXref>false</linkXref>
+							<includeTests>true</includeTests>
+							<targetDirectory>${project.build.directory}/pmd</targetDirectory>
 							<failOnViolation>false</failOnViolation>
 							<sourceEncoding>UTF-8</sourceEncoding>
 							<targetJdk>1.8</targetJdk>
