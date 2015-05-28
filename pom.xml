@@ -144,6 +144,7 @@
 					<warDirectory>webapp/target</warDirectory>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
@@ -176,7 +177,7 @@
 							</execution>
 						</executions>
 					</plugin>
-				
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-pmd-plugin</artifactId>
@@ -211,6 +212,31 @@
 								<ruleset>/rulesets/java/controversial.xml</ruleset>
 							</rulesets>
 						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+						<version>3.0.1</version>
+						<configuration>
+							<failOnError>false</failOnError>
+
+							<effort>Max</effort><!-- Min, Default, Max -->
+							<threshold>Default</threshold><!-- High, Default, Low, Ignore -->
+
+							<xmlOutput>true</xmlOutput>
+							<findbugsXmlOutput>true</findbugsXmlOutput>
+							<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+
+						</configuration>
+						<executions>
+							<execution>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>findbugs</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
