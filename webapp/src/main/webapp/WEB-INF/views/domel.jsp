@@ -7,7 +7,7 @@
 	href="<c:url value="/resources/style.css" />">
 </head>
 <body>
-	<h1>Domel Pull Request Test</h1>
+	<h1>Domel Pull Request Test 123</h1>
 	
 	<a href="<c:url value="/spittle/list" />">Spittles</a> |
 	<a href="<c:url value="/spitter/register" />">Register</a>
