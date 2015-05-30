@@ -38,7 +38,7 @@ public class SplittleServiceImplTest {
 		spittles.add(getSpittle(toDate("29-01-2015"), "M3"));
 		spittles.add(getSpittle(toDate("06-06-2002"), "M1"));
 
-		when(spittleRepository.findSpittles()).thenReturn(spittles);
+		when(spittleRepository.findAll()).thenReturn(spittles);
 
 		// when
 		List<Spittle> result = spittleService.findAll();

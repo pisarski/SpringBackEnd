@@ -27,7 +27,7 @@ public class SpittleServiceImpl implements SpittleService {
 
 	@Override
 	public List<Spittle> findAll() {
-		return spittleRepository.findSpittles().stream()
+		return spittleRepository.findAll().stream()
 				.sorted(SPITTLE_TIME_COMPARATOR).collect(Collectors.toList());
 	}
 

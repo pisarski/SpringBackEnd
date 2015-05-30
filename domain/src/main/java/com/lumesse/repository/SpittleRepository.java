@@ -1,11 +1,9 @@
 package com.lumesse.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lumesse.entity.Spittle;
 
-public interface SpittleRepository {
-
-	List<Spittle> findSpittles();
+public interface SpittleRepository extends JpaRepository<Spittle, Long> {
 
 }
