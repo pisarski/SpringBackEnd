@@ -6,19 +6,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.lumesse.repository.SpittleRepository;
+import com.lumesse.service.SpittleService;
 
 @Controller
 @RequestMapping(value = "/spittle/")
 public class SpittleController {
 
-	// change to service
 	@Autowired
-	private SpittleRepository spittleRepository;
+	private SpittleService spittleService;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String listSpittles(Model model) {
-		model.addAttribute("spittles", spittleRepository.findSpittles());
+		model.addAttribute("spittles", spittleService.findAll());
 		return "spittles";
 	}
 }

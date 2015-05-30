@@ -11,13 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.lumesse.repository.SpittleRepository;
+import com.lumesse.service.SpittleService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SpittleControllerTest {
 
 	@Mock
-	private SpittleRepository spittleRepository;
+	private SpittleService spittleService;
 
 	@InjectMocks
 	private SpittleController spittleController;

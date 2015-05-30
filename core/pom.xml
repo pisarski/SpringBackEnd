@@ -8,4 +8,10 @@
 	</parent>
 	<artifactId>core</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.lumesse</groupId>
+			<artifactId>domain</artifactId>
+		</dependency>
+	</dependencies>
 </project>

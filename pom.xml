@@ -300,6 +300,5 @@
 		<module>webapp</module>
 		<module>domain</module>
 		<module>core</module>
-		<module>logic</module>
 	</modules>
 </project>
