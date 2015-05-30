@@ -1,6 +1,9 @@
 package com.lumesse.controller;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -23,8 +26,17 @@ public class HomeControllerTest {
 
 	@Test
 	public void shouldReturnHomeViewOnGet() throws Exception {
+		// given
+		String envValue = "ENV";
+		when(env.getProperty(anyString())).thenReturn(envValue);
+
 		MockMvc mockMvc = standaloneSetup(homeController).build();
 
-		mockMvc.perform(get("/")).andExpect(view().name("home"));
+		// when
+		mockMvc.perform(get("/"))
+
+				// then
+				.andExpect(model().attribute("env", envValue))
+				.andExpect(view().name("home"));
 	}
 }
