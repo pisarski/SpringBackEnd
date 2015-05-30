@@ -127,6 +127,7 @@
 
 	</dependencies>
 
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -210,7 +211,6 @@
 					<warDirectory>webapp/target</warDirectory>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-remote-resources-plugin</artifactId>
 				<executions>
@@ -225,16 +225,15 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-		</plugins>
+			</plugin>		</plugins>
 	</build>
 
 	<profiles>
 		<profile>
-			<id>code coverage</id>
+			<id>code analysis</id>
 			<activation>
 				<property>
-					<name>RUN_CODE_COVER</name>
+					<name>CODE_ANALISE</name>
 				</property>
 			</activation>
 			<build>
@@ -257,6 +256,39 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>3.4</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>check</goal>
+									<goal>cpd-check</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<linkXref>false</linkXref>
+							<includeTests>true</includeTests>
+							<targetDirectory>${project.build.directory}/pmd</targetDirectory>
+							<failOnViolation>false</failOnViolation>
+							<sourceEncoding>UTF-8</sourceEncoding>
+							<targetJdk>1.8</targetJdk>
+							<rulesets>
+								<ruleset>/rulesets/java/basic.xml</ruleset>
+								<ruleset>/rulesets/java/naming.xml</ruleset>
+								<ruleset>/rulesets/java/design.xml</ruleset>
+								<ruleset>/rulesets/java/strings.xml</ruleset>
+								<ruleset>/rulesets/java/unusedcode.xml</ruleset>
+								<ruleset>/rulesets/java/imports.xml</ruleset>
+								<ruleset>/rulesets/java/braces.xml</ruleset>
+								<ruleset>/rulesets/java/codesize.xml</ruleset>
+								<ruleset>/rulesets/java/coupling.xml</ruleset>
+							</rulesets>
+						</configuration>
 					</plugin>
 
 				</plugins>
