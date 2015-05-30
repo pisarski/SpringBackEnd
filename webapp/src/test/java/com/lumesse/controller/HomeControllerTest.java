@@ -4,18 +4,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.test.web.servlet.MockMvc;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HomeControllerTest {
 
-	private HomeController homeController;
+	@Mock
+	private Environment env;
 
-	@Before
-	public void setUp() {
-		homeController = new HomeController();
-	}
+	@InjectMocks
+	private HomeController homeController;
 
 	@Test
 	public void shouldReturnHomeViewOnGet() throws Exception {
