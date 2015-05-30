@@ -9,6 +9,10 @@
 	<artifactId>webapp</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<propertyFileName>settings</propertyFileName>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.lumesse</groupId>
@@ -30,41 +34,36 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
+		<finalName>SpringSampleApp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 
-			<!-- TO BE REMOVD after Spring Data will be implemented -->
 			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
+				<artifactId>maven-remote-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
-						<phase>generate-sources</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>process</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>target/classes</outputDirectory>
-							<resources>
-								<resource>
-									<directory>../domain/src/main/resources</directory>
-									<includes>
-										<include>*.json</include>
-									</includes>
-								</resource>
-							</resources>
+							<resourceBundles>
+								<resourceBundle>${project.groupId}:core:${project.version}</resourceBundle>
+								<resourceBundle>${project.groupId}:domain:${project.version}</resourceBundle>
+							</resourceBundles>
 						</configuration>
 					</execution>
 				</executions>
