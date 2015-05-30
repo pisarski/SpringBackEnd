@@ -1,0 +1,1 @@
+insert into spittle(message, time) values('test', now());
