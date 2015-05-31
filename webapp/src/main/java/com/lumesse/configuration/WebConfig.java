@@ -5,7 +5,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -36,11 +38,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return new TilesViewResolver();
 	}
 
-	@Bean
-	public MessageSource messageSource() {
+	@Profile("dev")
+	@Bean(name = "messageSource")
+	public MessageSource devMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:/translations/messages");
 		messageSource.setCacheSeconds(10);
+		return messageSource;
+	}
+
+	@Profile("prod")
+	@Bean(name = "messageSource")
+	public MessageSource prodMessageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("classpath:/translations/messages");
 		return messageSource;
 	}
 

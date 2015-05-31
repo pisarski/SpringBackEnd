@@ -20,6 +20,7 @@ public class Spittle implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String message;
+	private String title;
 	private Date time;
 
 	public Long getId() {
@@ -36,6 +37,14 @@ public class Spittle implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Date getTime() {

@@ -3,10 +3,9 @@ body {
 	font-family: sans-serif;
 }
 
-label {
-	display: inline-block;
-	width: 120px;
-	text-align: right;
+#page-wrap {
+	width: 800px;
+	margin: 0 auto;
 }
 
 /* footer */

@@ -10,12 +10,8 @@
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
 	</definition>
 	
-	<definition name="home" extends="mainBaseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/home.jsp"/>
-	</definition>
-
-	<definition name="spittles" extends="mainBaseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/spittles.jsp"/>
+	<definition name="spittle.list" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/spittle/list.jsp"/>
 	</definition>
 	
 </tiles-definitions>

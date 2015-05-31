@@ -18,6 +18,6 @@ public class SpittleController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String listSpittles(Model model) {
 		model.addAttribute("spittles", spittleService.findAllSorted());
-		return "spittles";
+		return "spittle.list";
 	}
 }
