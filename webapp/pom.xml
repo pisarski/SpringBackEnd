@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<propertyFileName>settings</propertyFileName>
+		<display_version>v${project.version}-${GIT_COMMIT}</display_version>
 	</properties>
 
 	<dependencies>
@@ -45,6 +45,15 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/WEB-INF/layout</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>footer.jsp</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 

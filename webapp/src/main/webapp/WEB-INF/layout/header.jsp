@@ -1,2 +1,3 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<s:message code="test"/>
+
+<h1><s:message code="header.welcome"/></h1>
