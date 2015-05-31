@@ -18,14 +18,14 @@ public class ProdDbConfig {
 
 	@Bean
 	public BasicDataSource dataSource() {
-		BasicDataSource ds = new BasicDataSource();
-		ds.setDriverClassName("org.postgresql.Driver");
-		ds.setUrl(env.getRequiredProperty("db.url"));
-		ds.setUsername(env.getRequiredProperty("db.username"));
-		ds.setPassword(env.getRequiredProperty("db.password"));
-		ds.setInitialSize(5);
-		ds.setMaxActive(10);
-		return ds;
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl(env.getRequiredProperty("db.url"));
+		dataSource.setUsername(env.getRequiredProperty("db.username"));
+		dataSource.setPassword(env.getRequiredProperty("db.password"));
+		dataSource.setInitialSize(5);
+		dataSource.setMaxActive(10);
+		return dataSource;
 	}
 
 	@Bean

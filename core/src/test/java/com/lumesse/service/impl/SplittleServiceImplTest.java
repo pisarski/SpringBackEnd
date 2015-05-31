@@ -41,7 +41,7 @@ public class SplittleServiceImplTest {
 		when(spittleRepository.findAll()).thenReturn(spittles);
 
 		// when
-		List<Spittle> result = spittleService.findAll();
+		List<Spittle> result = spittleService.findAllSorted();
 
 		// then
 		assertThat(result, hasSize(4));

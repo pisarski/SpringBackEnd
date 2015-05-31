@@ -6,5 +6,8 @@ import com.lumesse.entity.Spittle;
 
 public interface SpittleService {
 
-	List<Spittle> findAll();
+	/**
+	 * @return list of Spittles sorted by time asc.
+	 */
+	List<Spittle> findAllSorted();
 }
