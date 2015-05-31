@@ -8,3 +8,13 @@ label {
 	width: 120px;
 	text-align: right;
 }
+
+/* footer */
+#footer {
+	margin-top: 10px;
+}
+
+#footer div.app_version {
+	font-size: 10px;
+	color: #eeeeee;
+}

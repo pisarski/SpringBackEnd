@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<display_version>v${project.version}-${GIT_COMMIT}</display_version>
+		<display_version>${project.version}-${maven.build.timestamp}-${GIT_COMMIT}</display_version>
 	</properties>
 
 	<dependencies>
