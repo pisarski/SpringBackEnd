@@ -257,7 +257,6 @@
 					<!-- This is to enable parallel deployment -->
 					<path>/SpringSampleApp##${maven.build.timestamp}</path>
 					<warDirectory>webapp/target</warDirectory>
-					<update>true</update>
 				</configuration>
 			</plugin>
 			<plugin>
