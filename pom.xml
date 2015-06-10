@@ -254,8 +254,7 @@
 				<configuration>
 					<url>http://tomcat-pisarski.rhcloud.com/manager/text</url>
 					<server>SpringSampleApp</server>
-					<!-- This is to enable parallel deployment -->
-					<path>/SpringSampleApp##${maven.build.timestamp}</path>
+					<path>/SpringSampleApp</path>
 					<warDirectory>webapp/target</warDirectory>
 				</configuration>
 			</plugin>
