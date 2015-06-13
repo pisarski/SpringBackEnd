@@ -8,6 +8,11 @@ body {
 	margin: 0 auto;
 }
 
+.errorMessage {
+	color: red;
+	font-weight: bold;
+}
+
 /* footer */
 #footer {
 	margin-top: 10px;

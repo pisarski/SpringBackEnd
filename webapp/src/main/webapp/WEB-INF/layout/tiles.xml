@@ -14,4 +14,12 @@
 		<put-attribute name="body" value="/WEB-INF/views/spittle/list.jsp"/>
 	</definition>
 	
+	<definition name="exception" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/error/exception.jsp"/>
+	</definition>
+	
+	<definition name="errorCode" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/error/errorCode.jsp"/>
+	</definition>
+	
 </tiles-definitions>

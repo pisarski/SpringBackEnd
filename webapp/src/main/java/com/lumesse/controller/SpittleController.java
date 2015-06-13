@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.lumesse.service.SpittleService;
 
 @Controller
-@RequestMapping(value = "/spittle/")
+@RequestMapping(value = "spittle")
 public class SpittleController {
 
 	@Autowired
