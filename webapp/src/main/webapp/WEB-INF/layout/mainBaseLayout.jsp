@@ -5,7 +5,7 @@
 <html>
 <head>
 <title><s:message code="title"/></title>
-<link rel="stylesheet" type="text/css" href="<s:url value="/resources/style.css" />">
+<link rel="stylesheet" type="text/css" href="<s:url value="/resources/style.css?appRev=${appRev}" />">
 </head>
 <body>
 	<div id="page-wrap">

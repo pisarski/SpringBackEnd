@@ -9,7 +9,8 @@ import org.springframework.context.annotation.PropertySources;
 @ComponentScan(basePackages = "com.lumesse.configuration")
 @PropertySources({
 		@PropertySource(value = "classpath:/properties/default.properties"),
-		@PropertySource(value = "file:${APP_CONFIG_DIR}/settings.properties", ignoreResourceNotFound = true) })
+		@PropertySource(value = "file:${APP_CONFIG_DIR}/settings.properties", ignoreResourceNotFound = true),
+		@PropertySource(value = "classpath:/properties/commonVariables.properties") })
 public class RootConfiguration {
 
 }

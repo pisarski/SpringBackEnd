@@ -1,7 +1,7 @@
 package com.lumesse.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.junit.Test;
@@ -30,6 +30,6 @@ public class HomeControllerTest {
 		mockMvc.perform(get("/"))
 
 		// then
-				.andExpect(view().name("redirect:/spittle/list"));
+				.andExpect(redirectedUrl("/spittle/list"));
 	}
 }
