@@ -34,7 +34,6 @@ public class Spittle implements Serializable {
 	private String title;
 
 	@Column(nullable = false)
-	@NotNull
 	private Date time;
 
 	public Long getId() {
