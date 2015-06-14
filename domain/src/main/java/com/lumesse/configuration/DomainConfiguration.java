@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.lumesse.repository")
@@ -34,6 +35,11 @@ public class DomainConfiguration {
 		transactionManager.setEntityManagerFactory(emf);
 		transactionManager.setDataSource(dataSource);
 		return transactionManager;
+	}
+
+	@Bean
+	public LocalValidatorFactoryBean validatorFactoryBean() {
+		return new LocalValidatorFactoryBean();
 	}
 
 }

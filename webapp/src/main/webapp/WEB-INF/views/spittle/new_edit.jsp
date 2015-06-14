@@ -9,12 +9,14 @@
 
 		<div class="formSection">
 			<form:label path="title"><s:message code="spittle.title"/></form:label>
-			<form:input path="title" />
+			<form:input path="title" cssErrorClass="error"/>
+			<form:errors path="title" />
 		</div>
 
 		<div class="formSection">
 			<form:label path="message"><s:message code="spittle.message"/></form:label>
-			<form:textarea path="message" />
+			<form:textarea path="message" cssErrorClass="error"/>
+			<form:errors path="message" />
 		</div>
 
 		<div class="buttons">

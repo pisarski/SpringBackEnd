@@ -1,8 +1,11 @@
 package com.lumesse.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +33,11 @@ public class SpittleController {
 	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public String saveSpittle(@ModelAttribute("spittle") Spittle spittle) {
+	public String saveSpittle(
+			@Valid @ModelAttribute("spittle") Spittle spittle, Errors errors) {
+		if (errors.hasErrors()) {
+			return "spittle.new_edit";
+		}
 		spittleService.save(spittle);
 		return "redirect:list";
 	}
