@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -29,6 +30,9 @@ public class SpittleRepositoryIntegrationTest {
 	public void shouldFindAllSpittles() {
 		// given
 		Spittle spittle = new Spittle();
+		spittle.setMessage("msg");
+		spittle.setTitle("title");
+		spittle.setTime(new Date());
 		spittleRepository.save(spittle);
 
 		// when
