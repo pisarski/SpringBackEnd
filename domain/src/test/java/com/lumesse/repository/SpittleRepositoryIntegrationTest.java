@@ -37,4 +37,5 @@ public class SpittleRepositoryIntegrationTest {
 		// then
 		assertThat(spittles, not(empty()));
 	}
+
 }

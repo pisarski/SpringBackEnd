@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +32,23 @@ public class SpittleServiceImpl implements SpittleService {
 
 	@Override
 	public Spittle save(Spittle spittle) {
+		long numberOfSpittles = spittleRepository.count();
+		if (numberOfSpittles >= MAX_NUM_OF_SPITTLES) {
+			long numberOfSpittlesToRemove = numberOfSpittles
+					- MAX_NUM_OF_SPITTLES + 1;
+			removeOldestSpittle((int) numberOfSpittlesToRemove);
+		}
 		if (spittle.getTime() == null) {
 			spittle.setTime(new Date());
 		}
 		return spittleRepository.save(spittle);
+	}
+
+	private void removeOldestSpittle(int numberOfSpittlesToRemove) {
+		Page<Spittle> result = spittleRepository.findAll(new PageRequest(0,
+				numberOfSpittlesToRemove, Direction.ASC, "time"));
+		List<Spittle> oldestSpittles = result.getContent();
+		spittleRepository.delete(oldestSpittles);
 	}
 
 }

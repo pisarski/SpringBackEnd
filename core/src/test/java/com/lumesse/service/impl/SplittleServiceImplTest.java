@@ -5,6 +5,9 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,9 +23,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.lumesse.entity.Spittle;
 import com.lumesse.repository.SpittleRepository;
+import com.lumesse.service.SpittleService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SplittleServiceImplTest {
@@ -88,6 +94,27 @@ public class SplittleServiceImplTest {
 		assertNotNull(captured.getTime());
 		assertEquals(spittle.getTitle(), captured.getTitle());
 		assertEquals(spittle.getMessage(), captured.getMessage());
+	}
+
+	@Test
+	public void shouldRemoveOldestSpittlesIfThreadsholdIsExceeded() {
+		// given
+		long numberOfSpittles = 30;
+		assertTrue(numberOfSpittles > SpittleService.MAX_NUM_OF_SPITTLES);
+
+		when(spittleRepository.count()).thenReturn(numberOfSpittles);
+		@SuppressWarnings("unchecked")
+		Page<Spittle> pageMock = mock(Page.class);
+		List<Spittle> spittles = new ArrayList<>();
+		when(pageMock.getContent()).thenReturn(spittles);
+		when(spittleRepository.findAll(any(Pageable.class))).thenReturn(
+				pageMock);
+
+		// when
+		spittleService.save(new Spittle());
+
+		// then
+		verify(spittleRepository).delete(spittles);
 	}
 
 	private Spittle getSpittle(Date date, String msg) {

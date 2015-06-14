@@ -6,6 +6,8 @@ import com.lumesse.entity.Spittle;
 
 public interface SpittleService {
 
+	long MAX_NUM_OF_SPITTLES = 20;
+
 	/**
 	 * @return list of Spittles sorted by time desc.
 	 */

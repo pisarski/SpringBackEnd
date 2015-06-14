@@ -65,15 +65,12 @@ public class Spittle implements Serializable {
 		}
 		final Spittle that = (Spittle) obj;
 
-		return new EqualsBuilder().append(this.id, that.id)
-				.append(this.time, that.time).append(message, that.message)
-				.isEquals();
+		return new EqualsBuilder().append(this.id, that.id).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).append(time).append(message)
-				.hashCode();
+		return new HashCodeBuilder().append(id).hashCode();
 	}
 
 }
