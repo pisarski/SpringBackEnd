@@ -14,7 +14,9 @@ public interface SpittleService {
 	List<Spittle> findAllSorted();
 
 	/**
-	 * Saves spittle. If time is not set, spittle is saved with current time.
+	 * Saves spittle. If time is not set, spittle is saved with current time. If
+	 * number of Spittles will exceed MAX_NUM_OF_SPITTLES then the oldest ones
+	 * are removed so that only MAX_NUM_OF_SPITTLES remain.
 	 * 
 	 * @param spittle
 	 *            spittle to save
