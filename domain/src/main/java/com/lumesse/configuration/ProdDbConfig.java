@@ -23,8 +23,8 @@ public class ProdDbConfig {
 		dataSource.setUrl(env.getRequiredProperty("db.url"));
 		dataSource.setUsername(env.getRequiredProperty("db.username"));
 		dataSource.setPassword(env.getRequiredProperty("db.password"));
-		dataSource.setInitialSize(5);
-		dataSource.setMaxActive(10);
+		dataSource.setInitialSize(1);
+		dataSource.setMaxActive(3);
 		return dataSource;
 	}
 
