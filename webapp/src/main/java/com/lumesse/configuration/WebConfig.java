@@ -22,7 +22,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
-import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.lumesse.interceptor.CommonVariablesInterceptor;
 
@@ -49,11 +48,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		tiles.setCheckRefresh(env.getProperty("tiles.refresh", Boolean.class,
 				false));
 		return tiles;
-	}
-
-	@Bean
-	public ViewResolver viewResolver() {
-		return new TilesViewResolver();
 	}
 
 	@Bean
