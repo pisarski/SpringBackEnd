@@ -156,6 +156,18 @@
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.7.12</version>
 			</dependency>
+			<dependency>
+				<groupId>pl.pragmatists</groupId>
+				<artifactId>JUnitParams</artifactId>
+				<version>1.0.4</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>0.9.10</version>
+				<scope>test</scope>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -190,7 +202,14 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+		</dependency>
 	</dependencies>
 
 

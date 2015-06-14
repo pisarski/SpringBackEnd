@@ -3,9 +3,11 @@ package com.lumesse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.lumesse.entity.Spittle;
 import com.lumesse.service.SpittleService;
 
 @Controller
@@ -19,5 +21,17 @@ public class SpittleController {
 	public String listSpittles(Model model) {
 		model.addAttribute("spittles", spittleService.findAllSorted());
 		return "spittle.list";
+	}
+
+	@RequestMapping(value = "new", method = RequestMethod.GET)
+	public String addSpittle(Model model) {
+		model.addAttribute("spittle", new Spittle());
+		return "spittle.new_edit";
+	}
+
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public String saveSpittle(@ModelAttribute("spittle") Spittle spittle) {
+		spittleService.save(spittle);
+		return "redirect:list";
 	}
 }

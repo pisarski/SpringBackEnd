@@ -8,6 +8,36 @@ body {
 	margin: 0 auto;
 }
 
+/* forms */
+form .formSection, form .buttons {
+	margin-left: 10px;
+	margin-right: 20px;
+}
+
+form .formSection :FIRST-CHILD {
+	margin-top: 10px;
+}
+
+form .formSection label {
+	display: block;
+}
+
+form .formSection input, form .formSection textarea {
+	max-width: 60%;
+	min-width: 60%;
+}
+
+form .formSection textarea {
+	min-height: 200px;	
+}
+
+form .buttons {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* errors */
+
 .errorMessage {
 	color: red;
 	font-weight: bold;

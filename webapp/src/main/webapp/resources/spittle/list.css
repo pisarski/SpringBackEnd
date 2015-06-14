@@ -30,3 +30,7 @@
 .spittleList .spittle hr.last {
 	display: none;
 }
+
+.newSpittleLink {
+	margin-bottom: 20px;
+}

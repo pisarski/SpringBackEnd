@@ -10,9 +10,17 @@
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
 	</definition>
 	
+	<!-- SPITTLE -->
+	
 	<definition name="spittle.list" extends="mainBaseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/spittle/list.jsp"/>
 	</definition>
+	
+	<definition name="spittle.new_edit" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/spittle/new_edit.jsp"/>
+	</definition>
+	
+	<!-- ERRORS -->
 	
 	<definition name="exception" extends="mainBaseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/error/exception.jsp"/>

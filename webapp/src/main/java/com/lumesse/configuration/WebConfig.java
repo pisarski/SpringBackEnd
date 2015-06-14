@@ -2,8 +2,6 @@ package com.lumesse.configuration;
 
 import java.util.Locale;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
@@ -32,14 +29,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
-
-	@Autowired
-	private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-
-	@PostConstruct
-	public void init() {
-		requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
-	}
 
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
