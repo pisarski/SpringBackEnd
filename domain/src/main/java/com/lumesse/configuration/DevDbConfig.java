@@ -2,15 +2,12 @@ package com.lumesse.configuration;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.InitializingBean;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
@@ -18,10 +15,24 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Profile({ "dev", "test" })
 public class DevDbConfig {
 
+	@Profile("test")
 	@Bean
-	public DataSource dataSource() {
+	public DataSource testDataSource() {
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
 				.build();
+	}
+
+	@Profile("dev")
+	@Bean
+	public BasicDataSource devDataSource() {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		dataSource.setUrl("jdbc:hsqldb:file:spittr_db/spittr_db");
+		dataSource.setUsername("sa");
+		dataSource.setPassword("");
+		dataSource.setInitialSize(1);
+		dataSource.setMaxActive(3);
+		return dataSource;
 	}
 
 	@Bean
@@ -31,22 +42,6 @@ public class DevDbConfig {
 		adapter.setGenerateDdl(true);
 		adapter.setDatabasePlatform("org.hibernate.dialect.HSQLDialect");
 		return adapter;
-	}
-
-	@Profile("dev")
-	@Bean
-	public ResourceDatabasePopulator databasePopulator() {
-		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.setSqlScriptEncoding("UTF-8");
-		populator.addScript(new ClassPathResource("dev_setup_data.sql"));
-		return populator;
-	}
-
-	@Profile("dev")
-	@Bean
-	public InitializingBean populatorExecutor() {
-		return () -> DatabasePopulatorUtils.execute(databasePopulator(),
-				dataSource());
 	}
 
 }
