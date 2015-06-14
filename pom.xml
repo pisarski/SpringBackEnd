@@ -292,7 +292,7 @@
 				<configuration>
 					<url>http://tomcat-pisarski.rhcloud.com/manager/text</url>
 					<server>SpringSampleApp</server>
-					<path>/SpringSampleApp</path>
+					<path>/SpringSampleApp##{maven.build.timestamp}</path>
 					<warDirectory>webapp/target</warDirectory>
 				</configuration>
 			</plugin>
