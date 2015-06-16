@@ -13,6 +13,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.util.ArrayList;
 import java.util.List;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -22,13 +25,13 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.lumesse.entity.Spittle;
 import com.lumesse.service.SpittleService;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitParamsRunner.class)
 public class SpittleControllerTest {
 
 	@Mock
@@ -41,6 +44,7 @@ public class SpittleControllerTest {
 
 	@Before
 	public void setUp() {
+		MockitoAnnotations.initMocks(this);
 		mockMvc = standaloneSetup(spittleController).build();
 	}
 
@@ -59,9 +63,10 @@ public class SpittleControllerTest {
 	}
 
 	@Test
-	public void shouldDisplayNewSpittleForm() throws Exception {
+	@Parameters(method = "getParametersForShouldDisplayNewSpittleForm")
+	public void shouldDisplayNewSpittleForm(String context) throws Exception {
 		// when
-		mockMvc.perform(get("/spittle/new"))
+		mockMvc.perform(get("/spittle/" + context))
 
 				// then
 				.andExpect(model().attribute("spittle", isEmptySpittle()))
@@ -107,5 +112,10 @@ public class SpittleControllerTest {
 						&& spittle.getTime() == null;
 			}
 		};
+	}
+
+	@SuppressWarnings("unused")
+	private String[] getParametersForShouldDisplayNewSpittleForm() {
+		return new String[] { "new", "save" };
 	}
 }

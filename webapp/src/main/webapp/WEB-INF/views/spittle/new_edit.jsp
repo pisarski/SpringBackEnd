@@ -8,19 +8,20 @@
 		<legend><s:message code="spittle.legend.new"/></legend>
 
 		<div class="formSection">
-			<form:label path="title"><s:message code="spittle.title"/></form:label>
+			<form:label path="title" cssClass="required"><s:message code="spittle.title"/></form:label>
 			<form:input path="title" cssErrorClass="error"/>
-			<form:errors path="title" />
+			<form:errors path="title" cssClass="formErrorMessage"/>
 		</div>
 
 		<div class="formSection">
-			<form:label path="message"><s:message code="spittle.message"/></form:label>
+			<form:label path="message" cssClass="required"><s:message code="spittle.message"/></form:label>
 			<form:textarea path="message" cssErrorClass="error"/>
-			<form:errors path="message" />
+			<form:errors path="message" cssClass="formErrorMessage"/>
 		</div>
 
 		<div class="buttons">
 			<button type="submit"><s:message code="button.create"/></button>
+			<button type="button" onclick="location.href='<c:url value='/spittle/list'/>'"><s:message code="button.cancel"/></button>
 		</div>
 	</fieldset>
 </form:form>

@@ -26,7 +26,7 @@ public class SpittleController {
 		return "spittle.list";
 	}
 
-	@RequestMapping(value = "new", method = RequestMethod.GET)
+	@RequestMapping(value = { "new", "save" }, method = RequestMethod.GET)
 	public String addSpittle(Model model) {
 		model.addAttribute("spittle", new Spittle());
 		return "spittle.new_edit";

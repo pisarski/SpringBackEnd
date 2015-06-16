@@ -36,6 +36,21 @@ form .buttons {
 	margin-bottom: 10px;
 }
 
+form .error {
+	background-color: red;
+}
+
+form .formErrorMessage {
+	color: red;
+	display: block;
+	font-size: small;
+}
+
+form label.required::AFTER {
+	content: "*";
+	color: red;
+}
+
 /* errors */
 
 .errorMessage {
