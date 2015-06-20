@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -59,7 +60,8 @@ public class SpittleControllerTest {
 
 				// then
 				.andExpect(model().attribute("spittles", spittles))
-				.andExpect(view().name("spittle.list"));
+				.andExpect(view().name("spittle.list"))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -70,7 +72,8 @@ public class SpittleControllerTest {
 
 				// then
 				.andExpect(model().attribute("spittle", isEmptySpittle()))
-				.andExpect(view().name("spittle.new_edit"));
+				.andExpect(view().name("spittle.new_edit"))
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -84,8 +87,9 @@ public class SpittleControllerTest {
 				post("/spittle/save").param("title", title).param("message",
 						message))
 
-		// then
-				.andExpect(redirectedUrl("list"));
+				// then
+				.andExpect(redirectedUrl("list"))
+				.andExpect(status().is3xxRedirection());
 
 		ArgumentCaptor<Spittle> spittleCaptor = ArgumentCaptor
 				.forClass(Spittle.class);
