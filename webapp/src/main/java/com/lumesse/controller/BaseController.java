@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +35,12 @@ public class BaseController {
 		ModelAndView model = new ModelAndView("exception");
 		model.addObject("uuid", uuid.toString());
 		return model;
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public String accessDeniedExceptionHandler() {
+		return "forward:/404";
 	}
 
 }

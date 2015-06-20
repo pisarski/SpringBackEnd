@@ -3,6 +3,7 @@ package com.lumesse.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,12 +27,14 @@ public class SpittleController {
 		return "spittle.list";
 	}
 
+	@Secured("ROLE_USER")
 	@RequestMapping(value = { "new", "save" }, method = RequestMethod.GET)
 	public String addSpittle(Model model) {
 		model.addAttribute("spittle", new Spittle());
 		return "spittle.new_edit";
 	}
 
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String saveSpittle(
 			@Valid @ModelAttribute("spittle") Spittle spittle, Errors errors) {

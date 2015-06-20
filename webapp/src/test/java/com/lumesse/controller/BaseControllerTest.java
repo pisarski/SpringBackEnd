@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 import org.springframework.web.method.HandlerMethod;
@@ -53,7 +54,19 @@ public class BaseControllerTest {
 						model().attribute("uuid", matchesPattern(UUID_PATTERN)))
 				.andExpect(view().name("exception"))
 				.andExpect(status().isInternalServerError());
+	}
 
+	@Test
+	public void shouldReturnNotFoundPageInCaseOfAccessDeniedError()
+			throws Exception {
+		when(controller.addSpittle(any(Model.class))).thenThrow(
+				new AccessDeniedException("No access"));
+
+		// when
+		mockMvc.perform(get("/spittle/new"))
+				// then
+				.andExpect(view().name("forward:/404"))
+				.andExpect(status().isNotFound());
 	}
 
 	private ExceptionHandlerExceptionResolver withBaseControllerAdvice() {

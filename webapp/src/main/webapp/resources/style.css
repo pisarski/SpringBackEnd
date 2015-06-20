@@ -8,6 +8,15 @@ body {
 	margin: 0 auto;
 }
 
+/* header */
+#header h1 {
+	display: inline-block;
+}
+
+#header .loginWrapper {
+	float: right;
+}
+
 /* forms */
 form .formSection, form .buttons {
 	margin-left: 10px;
@@ -46,11 +55,24 @@ form .formErrorMessage {
 	font-size: small;
 }
 
+form .checkboxWrapper {
+	display: table;
+	margin-top: 10px;
+}
+
+form .formSection.checkboxWrapper * {
+	display: table-cell;
+}
+
 form label.required::AFTER {
 	content: "*";
 	color: red;
 }
 
+.marginWrapper {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 /* errors */
 
 .errorMessage {
