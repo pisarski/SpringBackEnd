@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @Configuration
 @EnableWebSecurity
-public class TestSecurityConfig extends SecurityConfig {
+public class TestSecurityConfig extends WebSecurityConfig {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

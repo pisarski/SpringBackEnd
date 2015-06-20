@@ -2,6 +2,8 @@ package com.lumesse.service;
 
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+
 import com.lumesse.entity.Spittle;
 
 public interface SpittleService {
@@ -22,5 +24,6 @@ public interface SpittleService {
 	 *            spittle to save
 	 * @return saved spittle
 	 */
+	@Secured("ROLE_USER")
 	Spittle save(Spittle spittle);
 }
