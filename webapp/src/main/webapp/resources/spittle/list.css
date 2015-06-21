@@ -31,6 +31,14 @@
 	display: none;
 }
 
-.newSpittleLink {
+.linksContainer {
 	margin-bottom: 20px;
+}
+
+.linksContainer div {
+	display: inline-block;
+}
+
+.userManagementLink {
+	float: right;
 }

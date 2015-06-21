@@ -6,8 +6,16 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/spittle/list.css?appRev=${appRev}"/>">
 
 <sec:authorize access="isAuthenticated()">
-	<div class="newSpittleLink">
-		<a href="<c:url value="/spittle/new"/>"><s:message code="spittle.list.add"/></a>
+	<div class="linksContainer">
+		<div class="newSpittleLink">
+			<a href="<c:url value="/spittle/new"/>"><s:message code="spittle.list.add"/></a>
+		</div>
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')"> 
+			<div class="userManagementLink">
+				<a href="<c:url value="/user/list"/>"><s:message code="spittle.list.usersLink"/></a>
+			</div>
+		</sec:authorize>
 	</div>
 </sec:authorize>
 

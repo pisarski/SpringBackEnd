@@ -1,0 +1,20 @@
+.linksContainer {
+	margin-bottom: 20px;
+}
+
+.linksContainer div {
+	display: inline-block;
+}
+
+.backLink {
+	float: right;
+}
+
+.resultsTable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.resultsTable td, .resultsTable th {
+	border: 1px solid;
+}

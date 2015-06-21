@@ -28,10 +28,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import com.lumesse.entity.Spittle;
+import com.lumesse.helpers.ValidationHelper;
 import com.lumesse.service.SpittleService;
 
 @RunWith(JUnitParamsRunner.class)
@@ -108,7 +107,7 @@ public class SpittleControllerTest {
 		String field = "time";
 		String msg = "testErrorMsg";
 		mockMvc = standaloneSetup(spittleController).setValidator(
-				alwaysFailValidator(field, msg)).build();
+				ValidationHelper.alwaysFailValidator(field, msg)).build();
 
 		// when
 		mockMvc.perform(post("/spittle/save"))
@@ -117,21 +116,6 @@ public class SpittleControllerTest {
 				.andExpect(model().hasErrors())
 				.andExpect(model().errorCount(1))
 				.andExpect(view().name("spittle.new_edit"));
-	}
-
-	private Validator alwaysFailValidator(final String field, final String msg) {
-		return new Validator() {
-
-			@Override
-			public void validate(Object target, Errors errors) {
-				errors.rejectValue(field, msg);
-			}
-
-			@Override
-			public boolean supports(Class<?> clazz) {
-				return true;
-			}
-		};
 	}
 
 	private Matcher<Spittle> isEmptySpittle() {

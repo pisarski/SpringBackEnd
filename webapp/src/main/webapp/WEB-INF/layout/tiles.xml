@@ -25,6 +25,16 @@
 		<put-attribute name="body" value="/WEB-INF/views/spittle/new_edit.jsp"/>
 	</definition>
 	
+	<!-- USER -->
+	
+	<definition name="user.list" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/user/list.jsp"/>
+	</definition>
+	
+	<definition name="user.new_edit" extends="mainBaseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/user/new_edit.jsp"/>
+	</definition>
+	
 	<!-- ERRORS -->
 	
 	<definition name="exception" extends="mainBaseLayout">

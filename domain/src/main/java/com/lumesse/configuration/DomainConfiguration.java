@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.lumesse.repository")
+@EnableJpaRepositories(basePackages = { "com.lumesse.repository",
+		"com.lumesse.validator" })
 @EnableTransactionManagement
 public class DomainConfiguration {
 

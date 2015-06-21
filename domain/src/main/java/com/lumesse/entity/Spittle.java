@@ -1,6 +1,5 @@
 package com.lumesse.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,13 +10,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 @Entity
-public class Spittle implements Serializable {
+public class Spittle extends BaseEntity {
 
-	private static final long serialVersionUID = -4284405847520660459L;
+	private static final long serialVersionUID = -3382093166703764496L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +32,7 @@ public class Spittle implements Serializable {
 	@Column(nullable = false)
 	private Date time;
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -66,24 +63,6 @@ public class Spittle implements Serializable {
 
 	public void setTime(Date time) {
 		this.time = time;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Spittle == false) {
-			return false;
-		}
-		if (this == obj) {
-			return true;
-		}
-		final Spittle that = (Spittle) obj;
-
-		return new EqualsBuilder().append(this.id, that.id).isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(id).hashCode();
 	}
 
 }
