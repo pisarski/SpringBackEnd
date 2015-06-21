@@ -330,7 +330,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<url>http://tomcat-pisarski.rhcloud.com/manager/text</url>
+					<url>${deployUrl}</url>
 					<server>SpringSampleApp</server>
 					<path>/SpringSampleApp</path>
 					<warDirectory>webapp/target</warDirectory>
