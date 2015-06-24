@@ -42,19 +42,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		setUtf8Encoding(http).exceptionHandling().accessDeniedPage("/404")
-				.and().authorizeRequests().antMatchers("/login*").permitAll()
-				.antMatchers("/").permitAll().antMatchers("/spittle/list")
-				.permitAll().and().formLogin().loginPage("/login").permitAll()
-				.loginProcessingUrl("/login.do").defaultSuccessUrl("/")
-				.usernameParameter("username").passwordParameter("password")
-				.defaultSuccessUrl("/").failureUrl("/login?error").and()
-				.rememberMe().tokenValiditySeconds(2419200)
-				.rememberMeParameter("remember-me").key("spittrKey").and()
-				.logout().logoutUrl("/logout").logoutSuccessUrl("/")
-				.deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
-				.httpBasic().realmName("Spittr").and().requiresChannel()
-				.anyRequest().requiresSecure();
+		setUtf8Encoding(http)
+			.exceptionHandling().accessDeniedPage("/404")
+		.and().authorizeRequests()
+			.antMatchers("/login*").permitAll()
+			.antMatchers("/").permitAll()
+			.antMatchers("/spittle/list").permitAll()
+		.and().formLogin()
+			.loginPage("/login").permitAll()
+			.loginProcessingUrl("/login.do")
+			.defaultSuccessUrl("/")
+			.usernameParameter("username")
+			.passwordParameter("password")
+			.defaultSuccessUrl("/")
+			.failureUrl("/login?error")
+		.and().rememberMe()
+			.tokenValiditySeconds(2419200)
+			.rememberMeParameter("remember-me")
+			.key("spittrKey")
+		.and().logout()
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/")
+			.deleteCookies("JSESSIONID")
+			.invalidateHttpSession(true)
+		.and().httpBasic()
+			.realmName("Spittr")
+		.and().requiresChannel()
+			.anyRequest().requiresSecure();
 	}
 
 	private HttpSecurity setUtf8Encoding(HttpSecurity http) {
