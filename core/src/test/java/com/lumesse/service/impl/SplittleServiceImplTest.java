@@ -111,7 +111,7 @@ public class SplittleServiceImplTest {
 				pageMock);
 
 		// when
-		spittleService.save(new Spittle());
+		spittleService.save(getSpittle(new Date(), "msg"));
 
 		// then
 		verify(spittleRepository).delete(spittles);
@@ -121,6 +121,7 @@ public class SplittleServiceImplTest {
 		Spittle spittle = new Spittle();
 		spittle.setMessage(msg);
 		spittle.setTime(date);
+		spittle.setTitle("title");
 		return spittle;
 	}
 

@@ -1,13 +1,17 @@
 package com.lumesse.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -24,6 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.lumesse.builder.UserBuilder;
 import com.lumesse.entity.User;
+import com.lumesse.exception.CustomError;
+import com.lumesse.exception.ValidationException;
 import com.lumesse.repository.UserRepository;
 import com.lumesse.service.UserService;
 
@@ -93,13 +99,18 @@ public class UserServiceImplTest {
 		// given
 		when(userRepository.count()).thenReturn(numberOfUsers);
 
-		// then
-		expected.expect(IllegalStateException.class);
-		expected.expectMessage("Cannot create more than "
-				+ UserService.MAX_USERS_COUNT + " users.");
-
 		// when
-		userService.save(null);
+		try {
+			userService.save(new User());
+			fail("ValidationException was expected");
+
+			// then
+		} catch (ValidationException e) {
+			CustomError validationError = getValidationError(e,
+					"user.error.maxNumExceeded", null,
+					UserService.MAX_USERS_COUNT);
+			assertNotNull(validationError);
+		}
 
 	}
 
@@ -172,6 +183,25 @@ public class UserServiceImplTest {
 		assertEquals(newFirstName, result.getFirstName());
 	}
 
+	@Test
+	public void shouldCheckIfUsernameIsTaken() {
+		// given
+		User user = new User();
+		user.setId(54L);
+
+		when(userRepository.findByUsername(anyString())).thenReturn(user);
+		// when
+		try {
+			userService.save(new User());
+			fail("ValidationException was expected");
+		} catch (ValidationException e) {
+			// then
+			CustomError validationError = getValidationError(e,
+					"user.username.Unique", "username", null);
+			assertNotNull(validationError);
+		}
+	}
+
 	private User createUser(String username) {
 		return new UserBuilder().withAnyValues().withUsername(username).build();
 	}
@@ -180,5 +210,16 @@ public class UserServiceImplTest {
 	private Long[] getParametersForShouldThrowExceptionIfUserLimitExceeded() {
 		return new Long[] { UserService.MAX_USERS_COUNT,
 				UserService.MAX_USERS_COUNT + 1 };
+	}
+
+	private CustomError getValidationError(ValidationException e,
+			final String errorCode, final String field, final Object msgValue) {
+		return e.getCustomErrors()
+				.stream()
+				.filter(err -> err.getErrorCode().equals(errorCode)
+						&& err.getField() == field
+						&& (msgValue == null || err.getMessageVariables()[0]
+								.equals(msgValue)))
+				.collect(Collectors.toList()).get(0);
 	}
 }

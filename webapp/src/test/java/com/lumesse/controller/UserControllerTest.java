@@ -33,7 +33,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.lumesse.entity.User;
-import com.lumesse.helpers.ValidationHelper;
 import com.lumesse.service.UserService;
 
 @RunWith(JUnitParamsRunner.class)
@@ -126,24 +125,6 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void shouldGoBackToFormInCaseOfValidationErrorsWhenNewSpittleIsCreated()
-			throws Exception {
-		// given
-		String field = "firstName";
-		String msg = "testErrorMsg";
-		mockMvc = standaloneSetup(userController).setValidator(
-				ValidationHelper.alwaysFailValidator(field, msg)).build();
-
-		// when
-		mockMvc.perform(post("/user/save"))
-
-				// then
-				.andExpect(model().hasErrors())
-				.andExpect(model().errorCount(1))
-				.andExpect(view().name("user.new_edit"));
-	}
-
-	@Test
 	@Parameters(method = "getParametersForShouldSaveUserIfUsernameIsUnique")
 	public void shouldSaveUserIfUsernameIsUnique(String userId,
 			User existingUser) throws Exception {
@@ -158,25 +139,6 @@ public class UserControllerTest {
 				.andExpect(status().is3xxRedirection());
 
 		verify(userService).save(any(User.class));
-	}
-
-	@Test
-	@Parameters(method = "getParametersForShouldDetectThatUsernameIsUsed")
-	public void shouldDetectThatUsernameIsUsed(String userId, User existingUser)
-			throws Exception {
-
-		// given
-		when(userService.findByUsername(anyString())).thenReturn(existingUser);
-
-		// when
-		mockMvc.perform(post("/user/save").param("id", userId))
-
-				// then
-				.andExpect(model().hasErrors())
-				.andExpect(model().errorCount(1))
-				.andExpect(view().name("user.new_edit"))
-				.andExpect(status().isOk());
-
 	}
 
 	private Matcher<User> isEmptyUser() {
@@ -217,13 +179,6 @@ public class UserControllerTest {
 		User userWithId = new User();
 		userWithId.setId(1L);
 		return $($(null, null), $(userWithId.getId().toString(), userWithId));
-	}
-
-	@SuppressWarnings("unused")
-	private Object[] getParametersForShouldDetectThatUsernameIsUsed() {
-		User userWithId = new User();
-		userWithId.setId(1L);
-		return $($(null, userWithId), $("5", userWithId));
 	}
 
 }

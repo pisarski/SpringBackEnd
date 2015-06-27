@@ -15,7 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import net.sf.oval.constraint.Length;
 
 import com.lumesse.entity.enums.UserRole;
 
@@ -30,15 +31,15 @@ public class User extends BaseEntity {
 	private Long id;
 
 	@Column(length = 30)
-	@Size(min = 3, max = 30)
+	@Length(min = 3, max = 30)
 	private String firstName;
 
 	@Column(length = 30)
-	@Size(min = 3, max = 30)
+	@Length(min = 3, max = 30)
 	private String lastName;
 
 	@Column(length = 30, unique = true)
-	@Size(min = 3, max = 30)
+	@Length(min = 3, max = 30)
 	private String username;
 
 	@NotNull

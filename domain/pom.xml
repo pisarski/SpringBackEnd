@@ -64,7 +64,10 @@
 			<artifactId>javax.el-api</artifactId>
 		</dependency>
 
-
+		<dependency>
+			<groupId>net.sf.oval</groupId>
+			<artifactId>oval</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

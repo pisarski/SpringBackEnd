@@ -8,7 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import net.sf.oval.constraint.Length;
 
 @Entity
 public class Spittle extends BaseEntity {
@@ -21,12 +22,12 @@ public class Spittle extends BaseEntity {
 
 	@Column(nullable = false, length = 1024)
 	@NotNull
-	@Size(min = 1, max = 1024)
+	@Length(min = 1, max = 1024)
 	private String message;
 
 	@Column(nullable = false, length = 70)
 	@NotNull
-	@Size(min = 1, max = 70)
+	@Length(min = 1, max = 1024)
 	private String title;
 
 	@Column(nullable = false)

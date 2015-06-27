@@ -30,7 +30,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.lumesse.entity.Spittle;
-import com.lumesse.helpers.ValidationHelper;
 import com.lumesse.service.SpittleService;
 
 @RunWith(JUnitParamsRunner.class)
@@ -98,24 +97,6 @@ public class SpittleControllerTest {
 		Spittle captured = spittleCaptor.getValue();
 		assertEquals(message, captured.getMessage());
 		assertEquals(title, captured.getTitle());
-	}
-
-	@Test
-	public void shouldGoBackToFormInCaseOfValidationErrorsWhenNewSpittleIsCreated()
-			throws Exception {
-		// given
-		String field = "time";
-		String msg = "testErrorMsg";
-		mockMvc = standaloneSetup(spittleController).setValidator(
-				ValidationHelper.alwaysFailValidator(field, msg)).build();
-
-		// when
-		mockMvc.perform(post("/spittle/save"))
-
-				// then
-				.andExpect(model().hasErrors())
-				.andExpect(model().errorCount(1))
-				.andExpect(view().name("spittle.new_edit"));
 	}
 
 	private Matcher<Spittle> isEmptySpittle() {

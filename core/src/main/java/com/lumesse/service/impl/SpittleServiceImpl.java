@@ -17,7 +17,7 @@ import com.lumesse.service.SpittleService;
 
 @Service
 @Transactional
-public class SpittleServiceImpl implements SpittleService {
+public class SpittleServiceImpl extends BaseService implements SpittleService {
 
 	@Autowired
 	private SpittleRepository spittleRepository;
@@ -41,6 +41,7 @@ public class SpittleServiceImpl implements SpittleService {
 		if (spittle.getTime() == null) {
 			spittle.setTime(new Date());
 		}
+		validate(spittle);
 		return spittleRepository.save(spittle);
 	}
 

@@ -19,6 +19,11 @@
 	<c:otherwise>
 		<c:url var="saveUrl" value="/user/save" />
 		<form:form modelAttribute="user" action="${saveUrl}" method="POST">
+		
+			<div class="errorMessage marginWrapper">
+				<form:errors/>
+			</div>
+			
 			<fieldset>
 				<legend><s:message code="user.legend.new"/></legend>
 		
@@ -54,7 +59,7 @@
 								<form:option value="${role}"><s:message code="${role.msgCode }"/></form:option>
 							</c:forEach>
 						</form:select>
-						<form:errors path="password" cssClass="formErrorMessage"/>
+						<form:errors path="roles" cssClass="formErrorMessage"/>
 					</div>
 				</sec:authorize>
 				

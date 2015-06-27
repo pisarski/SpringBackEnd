@@ -26,7 +26,7 @@ import com.lumesse.interceptor.CommonVariablesInterceptor;
 @Configuration
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@ComponentScan("com.lumesse.controller")
+@ComponentScan({ "com.lumesse.controller", "com.lumesse.aspect" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired

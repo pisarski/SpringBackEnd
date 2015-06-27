@@ -1,7 +1,5 @@
 package com.lumesse.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.lumesse.aspect.validation.Validate;
 import com.lumesse.entity.User;
 import com.lumesse.service.UserService;
 
@@ -37,24 +36,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public String saveUser(@Valid @ModelAttribute("user") User user,
-			Errors errors) {
-
-		if (!usernameIsUnique(user)) {
-			errors.rejectValue("username", "user.username.Unique");
-		}
-
-		if (errors.hasErrors()) {
-			return "user.new_edit";
-		}
+	@Validate("user.new_edit")
+	public String saveUser(@ModelAttribute("user") User user, Errors errors) {
 
 		userService.save(user);
 		return "redirect:list";
 	}
 
-	private boolean usernameIsUnique(User user) {
-		User existingUser = userService.findByUsername(user.getUsername());
-		return existingUser == null
-				|| existingUser.getId().equals(user.getId());
-	}
 }

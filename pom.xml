@@ -53,6 +53,21 @@
 				<artifactId>spring-jdbc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.8.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.8.6</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -208,6 +223,12 @@
 				<version>3.0.0</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>net.sf.oval</groupId>
+				<artifactId>oval</artifactId>
+				<version>1.84</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
