@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lumesse.entity.User;
@@ -26,15 +27,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 	@Transactional(readOnly = true)
 	@Override
 	public List<User> findAll() {
-		List<User> users = userRepository.findAll();
-		for (User user : users) {
-			fetchUserData(user);
-		}
-		return users;
-	}
-
-	private void fetchUserData(User user) {
-		user.getRights().size();
+		return userRepository.findAll();
 	}
 
 	@Override
@@ -52,10 +45,8 @@ public class UserServiceImpl extends BaseService implements UserService {
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
 		} else {
-			User existingUser = userRepository.findOne(user.getId());
-			if (!existingUser.getPassword().equals(user.getPassword())) {
-				throw new IllegalArgumentException("password cannot be changed");
-			}
+			User existingUser = getById(user.getId());
+			user.setPassword(existingUser.getPassword());
 		}
 
 		if (!usernameIsUnique(user)) {
@@ -77,6 +68,12 @@ public class UserServiceImpl extends BaseService implements UserService {
 	@Override
 	public User findByUsername(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public User getById(long id) {
+		return userRepository.findOne(id);
 	}
 
 	private boolean usernameIsUnique(User user) {

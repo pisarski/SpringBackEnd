@@ -128,8 +128,7 @@ public class UserServiceImplTest {
 		user.setPassword(rawPassword);
 
 		when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
-		doAnswer(invocation -> invocation.getArgumentAt(0, User.class)).when(
-				userRepository).save(any(User.class));
+		mockSave();
 
 		// when
 		User saved = userService.save(user);
@@ -139,8 +138,9 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionOnPasswordChange() {
+	public void shouldUsePasswordFomrExistingUser() {
 		// given
+		disableValidation();
 		String currentPassword = "currentPassword";
 		String newPassword = "newPassword";
 		Long userId = 54L;
@@ -154,13 +154,13 @@ public class UserServiceImplTest {
 		user.setPassword(newPassword);
 
 		when(userRepository.findOne(userId)).thenReturn(existingUser);
+		mockSave();
+		// when
+		User savedUser = userService.save(user);
 
 		// then
-		expected.expect(IllegalArgumentException.class);
-		expected.expectMessage("password cannot be changed");
+		assertEquals(currentPassword, savedUser.getPassword());
 
-		// when
-		userService.save(user);
 	}
 
 	@Test
@@ -177,8 +177,7 @@ public class UserServiceImplTest {
 		user.setFirstName(newFirstName);
 
 		when(userRepository.findOne(userId)).thenReturn(existingUser);
-		doAnswer(invocation -> invocation.getArgumentAt(0, User.class)).when(
-				userRepository).save(any(User.class));
+		mockSave();
 
 		// when
 		User result = userService.save(user);
@@ -230,5 +229,10 @@ public class UserServiceImplTest {
 	private void disableValidation() {
 		doAnswer(args -> null).when(userService).validate(any(User.class),
 				any(ErrorsContainer.class));
+	}
+
+	private void mockSave() {
+		doAnswer(invocation -> invocation.getArgumentAt(0, User.class)).when(
+				userRepository).save(any(User.class));
 	}
 }

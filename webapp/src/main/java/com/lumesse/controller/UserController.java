@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,20 +28,41 @@ public class UserController {
 		return "user.list";
 	}
 
-	@RequestMapping(value = { "new", "save" }, method = RequestMethod.GET)
+	@RequestMapping(value = "new", method = RequestMethod.GET)
 	public String addUser(Model model) {
-		model.addAttribute("userLimitExceeded",
-				UserService.MAX_USERS_COUNT <= userService.getNumberOfUsers());
-		model.addAttribute("user", new User());
+		User user = new User();
+		model.addAttribute("user", user);
+		initUserFormModel(model, user);
 		return "user.new_edit";
 	}
 
-	@RequestMapping(value = "save", method = RequestMethod.POST)
-	@Validate("user.new_edit")
-	public String saveUser(@ModelAttribute("user") User user, Errors errors) {
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+	public String editUser(Model model, @PathVariable("id") long id) {
+		User user = userService.getById(id);
+		model.addAttribute("user", user);
+		initUserFormModel(model, user);
+		return "user.new_edit";
+	}
+
+	@RequestMapping(value = { "new", "edit/{id}" }, method = RequestMethod.POST)
+	@Validate(value = "user.new_edit", initMethod = "initUserFormModel")
+	public String saveUser(@ModelAttribute("user") User user, Model model,
+			Errors errors) {
 
 		userService.save(user);
-		return "redirect:list";
+		return "redirect:/user/list";
+	}
+
+	private void initUserFormModel(Model model, User user) {
+		model.addAttribute("userLimitExceeded",
+				UserService.MAX_USERS_COUNT <= userService.getNumberOfUsers());
+		if (user.getId() == null) {
+			model.addAttribute("submitBtnCode", "button.create");
+			model.addAttribute("saveActionUrl", "/user/new");
+		} else {
+			model.addAttribute("submitBtnCode", "button.edit");
+			model.addAttribute("saveActionUrl", "/user/edit/" + user.getId());
+		}
 	}
 
 }

@@ -25,4 +25,11 @@ public @interface Validate {
 	 *         ValidationException}
 	 */
 	String value();
+
+	/**
+	 * @return name of method which has to be invoked before view is returned.
+	 *         Init method can take any parameter from argument list of
+	 *         annotated method.
+	 */
+	String initMethod() default "";
 }

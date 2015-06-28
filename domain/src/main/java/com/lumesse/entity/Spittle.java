@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import net.sf.oval.constraint.Length;
@@ -32,6 +33,14 @@ public class Spittle extends BaseEntity {
 
 	@Column(nullable = false)
 	private Date time;
+
+	@ManyToOne
+	private User createUser;
+
+	@ManyToOne
+	private User editUser;
+
+	private Date updateTime;
 
 	@Override
 	public Long getId() {
@@ -64,6 +73,30 @@ public class Spittle extends BaseEntity {
 
 	public void setTime(Date time) {
 		this.time = time;
+	}
+
+	public User getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(User createUser) {
+		this.createUser = createUser;
+	}
+
+	public User getEditUser() {
+		return editUser;
+	}
+
+	public void setEditUser(User editUser) {
+		this.editUser = editUser;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

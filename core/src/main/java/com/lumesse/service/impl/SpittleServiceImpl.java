@@ -8,10 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lumesse.entity.Spittle;
+import com.lumesse.entity.User;
+import com.lumesse.entity.enums.UserRight;
+import com.lumesse.pojo.SpittleUserDetails;
 import com.lumesse.repository.SpittleRepository;
 import com.lumesse.service.SpittleService;
 
@@ -38,11 +44,29 @@ public class SpittleServiceImpl extends BaseService implements SpittleService {
 					- MAX_NUM_OF_SPITTLES + 1;
 			removeOldestSpittle((int) numberOfSpittlesToRemove);
 		}
-		if (spittle.getTime() == null) {
+		Spittle toSave;
+		User loggedUser = getLoggedUser();
+		if (spittle.getId() == null) {
+			spittle.setCreateUser(loggedUser);
 			spittle.setTime(new Date());
+			toSave = spittle;
+		} else {
+			Spittle existingSpittle = getById(spittle.getId());
+			checkRightsToEditSpittle(loggedUser, existingSpittle);
+			existingSpittle.setMessage(spittle.getMessage());
+			existingSpittle.setTitle(spittle.getTitle());
+			existingSpittle.setEditUser(loggedUser);
+			existingSpittle.setUpdateTime(new Date());
+			toSave = existingSpittle;
 		}
-		validate(spittle);
-		return spittleRepository.save(spittle);
+		validate(toSave);
+		return spittleRepository.save(toSave);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	public Spittle getById(long id) {
+		return spittleRepository.findOne(id);
 	}
 
 	private void removeOldestSpittle(int numberOfSpittlesToRemove) {
@@ -52,4 +76,21 @@ public class SpittleServiceImpl extends BaseService implements SpittleService {
 		spittleRepository.delete(oldestSpittles);
 	}
 
+	private User getLoggedUser() {
+		SpittleUserDetails userDetails = (SpittleUserDetails) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+		return userDetails.getUser();
+	}
+
+	private void checkRightsToEditSpittle(User loggedUser,
+			Spittle existingSpittle) {
+		if (!loggedUser.getRights().contains(UserRight.EDIT_ALL_SPITTLES)
+				&& !existingSpittle.getCreateUser().getId()
+						.equals(loggedUser.getId())) {
+			throw new AccessDeniedException("User with id = "
+					+ loggedUser.getId()
+					+ "donesn't have access to Spittle with id = "
+					+ existingSpittle.getId());
+		}
+	}
 }

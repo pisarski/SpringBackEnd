@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.withUser("admin")
 				.password("admin")
 				.authorities(
-						Stream.of(UserRight.values())
+						Stream.of(UserRight.USER_MANAGEMENT)
 								.map(right -> new SimpleGrantedAuthority(right
 										.name())).collect(Collectors.toList()));
 
@@ -53,18 +53,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		setUtf8Encoding(http).exceptionHandling().accessDeniedPage("/404")
-				.and().authorizeRequests().antMatchers("/login*").permitAll()
-				.antMatchers("/").permitAll().antMatchers("/spittle/list")
-				.permitAll().and().formLogin().loginPage("/login").permitAll()
-				.loginProcessingUrl("/login.do").defaultSuccessUrl("/")
-				.usernameParameter("username").passwordParameter("password")
-				.defaultSuccessUrl("/").failureUrl("/login?error").and()
-				.rememberMe().tokenValiditySeconds(2419200)
-				.rememberMeParameter("remember-me").key("spittrKey").and()
-				.logout().logoutUrl("/logout").logoutSuccessUrl("/")
-				.deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
-				.httpBasic().realmName("Spittr").and().requiresChannel()
+		setUtf8Encoding(http)
+			.exceptionHandling()
+				.accessDeniedPage("/404")
+			.and().authorizeRequests()
+				.antMatchers("/login*").permitAll()
+				.antMatchers("/").permitAll()
+				.antMatchers("/spittle/list").permitAll()
+			.and().formLogin()
+				.loginPage("/login").permitAll()
+				.loginProcessingUrl("/login.do")
+				.defaultSuccessUrl("/")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.defaultSuccessUrl("/")
+				.failureUrl("/login?error")
+			.and().rememberMe()
+				.tokenValiditySeconds(2419200)
+				.rememberMeParameter("remember-me")
+				.key("spittrKey")
+			.and().logout()
+				.logoutUrl("/logout").permitAll()
+				.logoutSuccessUrl("/")
+				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true)
+			.and().httpBasic()
+				.realmName("Spittr")
+			.and().requiresChannel()
 				.anyRequest().requiresSecure();
 	}
 

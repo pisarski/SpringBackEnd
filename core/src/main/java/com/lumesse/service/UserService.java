@@ -2,6 +2,7 @@ package com.lumesse.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.lumesse.entity.User;
@@ -28,10 +29,14 @@ public interface UserService {
 	 *            user to save or edit
 	 * @return saved user
 	 */
+	@PreAuthorize("principal.user.id != #user.id")
 	User save(User user);
 
 	/**
 	 * @return user with given username or null if such user doesn't exist
 	 */
 	User findByUsername(String username);
+
+	@PostAuthorize("principal.user.id != returnObject.id")
+	User getById(long id);
 }

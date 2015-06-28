@@ -2,10 +2,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<c:url var="saveUrl" value="/spittle/save" />
+<c:url var="saveUrl" value="/spittle/${saveActionUrl}" />
 <form:form modelAttribute="spittle" action="${saveUrl}" method="POST">
 	<fieldset>
 		<legend><s:message code="spittle.legend.new"/></legend>
+
+		<form:hidden path="id"/>
 
 		<div class="formSection">
 			<form:label path="title" cssClass="required"><s:message code="spittle.title"/></form:label>
@@ -20,7 +22,7 @@
 		</div>
 
 		<div class="buttons">
-			<button type="submit"><s:message code="button.create"/></button>
+			<button type="submit"><s:message code="${submitBtnCode}"/></button>
 			<button type="button" onclick="location.href='<c:url value='/spittle/list'/>'"><s:message code="button.cancel"/></button>
 		</div>
 	</fieldset>

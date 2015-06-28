@@ -63,6 +63,10 @@ public class SpittleUserDetails implements UserDetails {
 		return user.isEnabled();
 	}
 
+	public User getUser() {
+		return user;
+	}
+
 	private void initAuthoritiesCollection(User user) {
 		Set<UserRight> rights = user.getRights();
 		if (rights == null) {

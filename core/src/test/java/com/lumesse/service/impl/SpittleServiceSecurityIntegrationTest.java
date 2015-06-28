@@ -29,7 +29,7 @@ public class SpittleServiceSecurityIntegrationTest extends
 		expected.expect(AccessDeniedException.class);
 
 		// when
-		spittleService.save(null);
+		spittleService.save(new Spittle());
 	}
 
 	@Test

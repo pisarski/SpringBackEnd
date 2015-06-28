@@ -23,8 +23,19 @@
 	<c:forEach var="spittle" items="${spittles}" varStatus="status">
 		<div class="spittle">
 			<div class="title">
-				<span class="titleText"> 
-					<c:out value="${spittle.title}" />
+				<span class="titleText">
+					<c:set var="canEdit" value="false" /> 
+					<sec:authorize access="hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id.toString() == '${spittle.createUser.id}')">
+						<c:set var="canEdit" value="true" /> 
+					</sec:authorize>
+					
+					<c:if test="${canEdit}">
+						<a href="<c:url value='/spittle/edit/${spittle.id}'/>">
+					</c:if>
+						<c:out value="${spittle.title}" />
+					<c:if test="${canEdit}">
+						</a>
+					</c:if>
 				</span>
 				<span class="spittleDate">
 					<fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.time}"/>

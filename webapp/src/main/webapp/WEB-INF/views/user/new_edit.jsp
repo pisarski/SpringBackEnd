@@ -17,7 +17,7 @@
 		</div>	
 	</c:when>
 	<c:otherwise>
-		<c:url var="saveUrl" value="/user/save" />
+		<c:url var="saveUrl" value="${saveActionUrl}" />
 		<form:form modelAttribute="user" action="${saveUrl}" method="POST">
 		
 			<div class="errorMessage marginWrapper">
@@ -26,6 +26,8 @@
 			
 			<fieldset>
 				<legend><s:message code="user.legend.new"/></legend>
+		
+				<form:hidden path="id"/>
 		
 				<div class="formSection">
 					<form:label path="firstName" cssClass="required"><s:message code="user.firstName"/></form:label>
@@ -44,13 +46,15 @@
 					<form:input path="username" cssErrorClass="error"/>
 					<form:errors path="username" cssClass="formErrorMessage"/>
 				</div>
+			
+				<c:if test="${user.id == null}">
+					<div class="formSection">
+						<form:label path="password" cssClass="required"><s:message code="user.password"/></form:label>
+						<form:password path="password" cssErrorClass="error"/>
+						<form:errors path="password" cssClass="formErrorMessage"/>
+					</div>					
+				</c:if>
 		
-				<div class="formSection">
-					<form:label path="password" cssClass="required"><s:message code="user.password"/></form:label>
-					<form:password path="password" cssErrorClass="error"/>
-					<form:errors path="password" cssClass="formErrorMessage"/>
-				</div>
-				
 				<div class="formSection">
 					<form:label path="rights" cssClass="required"><s:message code="user.permissionsSection"/></form:label>
 					<form:errors path="rights" cssClass="formErrorMessage"/>
@@ -63,7 +67,7 @@
 				</div>
 
 				<div class="buttons">
-					<button type="submit"><s:message code="button.create"/></button>
+					<button type="submit"><s:message code="${submitBtnCode}"/></button>
 					<button type="button" onclick="location.href='<c:url value='/user/list'/>'"><s:message code="button.cancel"/></button>
 				</div>
 			</fieldset>

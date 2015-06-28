@@ -14,15 +14,11 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.util.ArrayList;
 import java.util.List;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,7 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.lumesse.entity.Spittle;
 import com.lumesse.service.SpittleService;
 
-@RunWith(JUnitParamsRunner.class)
 public class SpittleControllerTest {
 
 	@Mock
@@ -65,10 +60,9 @@ public class SpittleControllerTest {
 	}
 
 	@Test
-	@Parameters(method = "getParametersForShouldDisplayNewSpittleForm")
-	public void shouldDisplayNewSpittleForm(String context) throws Exception {
+	public void shouldDisplayNewSpittleForm() throws Exception {
 		// when
-		mockMvc.perform(get("/spittle/" + context))
+		mockMvc.perform(get("/spittle/new"))
 
 				// then
 				.andExpect(model().attribute("spittle", isEmptySpittle()))
@@ -84,11 +78,11 @@ public class SpittleControllerTest {
 
 		// when
 		mockMvc.perform(
-				post("/spittle/save").param("title", title).param("message",
+				post("/spittle/new").param("title", title).param("message",
 						message))
 
 				// then
-				.andExpect(redirectedUrl("list"))
+				.andExpect(redirectedUrl("/spittle/list"))
 				.andExpect(status().is3xxRedirection());
 
 		ArgumentCaptor<Spittle> spittleCaptor = ArgumentCaptor
@@ -118,8 +112,4 @@ public class SpittleControllerTest {
 		};
 	}
 
-	@SuppressWarnings("unused")
-	private String[] getParametersForShouldDisplayNewSpittleForm() {
-		return new String[] { "new", "save" };
-	}
 }

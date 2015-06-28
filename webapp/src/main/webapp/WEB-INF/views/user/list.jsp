@@ -23,7 +23,8 @@
 		<th><s:message code="user.firstName" /></th>
 		<th><s:message code="user.lastName" /></th>
 		<th><s:message code="user.username" /></th>
-		<th>Rights</th>
+		<th><s:message code="UserRights"/></th>
+		<th><s:message code="operations"/></th>
 	</tr>
 	<c:forEach var="user" items="${users}">
 		<tr>
@@ -36,6 +37,11 @@
 						<li><s:message code="${right.code}" /></li>
 					</c:forEach>
 				</ul>
+			</td>
+			<td>
+				<sec:authorize access="principal.user.id != ${user.id}">
+					<a href="<c:url value='/user/edit/${user.id}'/>">Edit</a>
+				</sec:authorize>
 			</td>
 		</tr>
 	</c:forEach>

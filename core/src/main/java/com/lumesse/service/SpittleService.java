@@ -2,6 +2,7 @@ package com.lumesse.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.lumesse.entity.Spittle;
@@ -24,6 +25,9 @@ public interface SpittleService {
 	 *            spittle to save
 	 * @return saved spittle
 	 */
-	@PreAuthorize("hasAuthority('ADD_SPITTLE')")
+	@PreAuthorize("(#spittle.id == null and hasAuthority('ADD_SPITTLE')) or (#spittle.id != null and hasAnyAuthority('EDIT_ALL_SPITTLES', 'EDIT_OWN_SPITTLE'))")
 	Spittle save(Spittle spittle);
+
+	@PostAuthorize("hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id == returnObject.createUser.id)")
+	Spittle getById(long id);
 }

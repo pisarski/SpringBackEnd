@@ -67,10 +67,9 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@Parameters(method = "getParametersForShouldDisplayNewUserForm")
-	public void shouldDisplayNewUserForm(String context) throws Exception {
+	public void shouldDisplayNewUserForm() throws Exception {
 		// when
-		mockMvc.perform(get("/user/" + context))
+		mockMvc.perform(get("/user/new"))
 
 				// then
 				.andExpect(model().attribute("user", isEmptyUser()))
@@ -81,13 +80,13 @@ public class UserControllerTest {
 
 	@Test
 	@Parameters(method = "getParametersForShouldInsertUserExceededLimitVariable")
-	public void shouldInsertUserExceededLimitVariable(String context,
-			long numOfUsers) throws Exception {
+	public void shouldInsertUserExceededLimitVariable(long numOfUsers)
+			throws Exception {
 		// given
 		when(userService.getNumberOfUsers()).thenReturn(numOfUsers);
 
 		// when
-		mockMvc.perform(get("/user/" + context))
+		mockMvc.perform(get("/user/new"))
 
 				// then
 				.andExpect(model().attribute("user", isEmptyUser()))
@@ -106,13 +105,13 @@ public class UserControllerTest {
 
 		// when
 		mockMvc.perform(
-				post("/user/save").param("firstName", firstName)
+				post("/user/new").param("firstName", firstName)
 						.param("lastName", lastName)
 						.param("username", username)
 						.param("password", password))
 
 				// then
-				.andExpect(redirectedUrl("list"))
+				.andExpect(redirectedUrl("/user/list"))
 				.andExpect(status().is3xxRedirection());
 
 		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -132,10 +131,10 @@ public class UserControllerTest {
 		when(userService.findByUsername(anyString())).thenReturn(existingUser);
 
 		// when
-		mockMvc.perform(post("/user/save").param("id", userId))
+		mockMvc.perform(post("/user/new").param("id", userId))
 
 				// then
-				.andExpect(view().name("redirect:list"))
+				.andExpect(view().name("redirect:/user/list"))
 				.andExpect(status().is3xxRedirection());
 
 		verify(userService).save(any(User.class));
@@ -162,16 +161,9 @@ public class UserControllerTest {
 	}
 
 	@SuppressWarnings("unused")
-	private String[] getParametersForShouldDisplayNewUserForm() {
-		return new String[] { "new", "save" };
-	}
-
-	@SuppressWarnings("unused")
 	private Object[] getParametersForShouldInsertUserExceededLimitVariable() {
-		return $($("new", UserService.MAX_USERS_COUNT),
-				$("save", UserService.MAX_USERS_COUNT),
-				$("new", UserService.MAX_USERS_COUNT + 1),
-				$("save", UserService.MAX_USERS_COUNT + 1));
+		return $($(UserService.MAX_USERS_COUNT),
+				$(UserService.MAX_USERS_COUNT + 1));
 	}
 
 	@SuppressWarnings("unused")

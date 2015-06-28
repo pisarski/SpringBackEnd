@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -25,8 +26,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.lumesse.entity.Spittle;
+import com.lumesse.pojo.SpittleUserDetails;
 import com.lumesse.repository.SpittleRepository;
 import com.lumesse.service.SpittleService;
 
@@ -36,8 +40,16 @@ public class SplittleServiceImplTest {
 	@Mock
 	private SpittleRepository spittleRepository;
 
+	@Mock
+	private SpittleUserDetails userDetails;
+
 	@InjectMocks
 	private SpittleServiceImpl spittleService;
+
+	@Before
+	public void setUp() {
+		setSecurityContext();
+	}
 
 	@Test
 	public void shouldReturnAllSplittlesInProperOrder() {
@@ -74,6 +86,12 @@ public class SplittleServiceImplTest {
 		// then
 		assertEquals(savedSpittle, result);
 		verify(spittleRepository).save(spittle);
+	}
+
+	private void setSecurityContext() {
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken(userDetails, null,
+						userDetails.getAuthorities()));
 	}
 
 	@Test
