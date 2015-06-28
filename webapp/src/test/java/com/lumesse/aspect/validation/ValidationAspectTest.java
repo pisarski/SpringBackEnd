@@ -64,6 +64,8 @@ public class ValidationAspectTest {
 			throws Throwable {
 		// given
 		when(point.getArgs()).thenReturn(new Object[] { 1, "test" });
+		when(point.proceed()).thenThrow(
+				new ValidationException(new ArrayList<>()));
 
 		// then
 		expected.expect(IllegalStateException.class);

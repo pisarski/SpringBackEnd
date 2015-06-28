@@ -32,10 +32,10 @@ public class ValidationAspect {
 	public String aroundMethodWithValidationEnabled(ProceedingJoinPoint point,
 			Validate validate) throws Throwable {
 
-		Errors errors = getErrorsContainer(point);
 		try {
 			return (String) point.proceed();
 		} catch (ValidationException e) {
+			Errors errors = getErrorsContainer(point);
 			setErrors(errors, e.getCustomErrors());
 			return validate.value();
 		}

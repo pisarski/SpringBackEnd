@@ -3,6 +3,9 @@ package com.lumesse.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Container for validation errors.
+ */
 public class ErrorsContainer {
 
 	private List<CustomError> customErrors = new ArrayList<>();
