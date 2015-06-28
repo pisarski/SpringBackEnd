@@ -24,11 +24,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.lumesse.builder.UserBuilder;
 import com.lumesse.entity.User;
 import com.lumesse.exception.CustomError;
+import com.lumesse.exception.ErrorsContainer;
 import com.lumesse.exception.ValidationException;
 import com.lumesse.repository.UserRepository;
 import com.lumesse.service.UserService;
@@ -43,6 +45,7 @@ public class UserServiceImplTest {
 	private UserRepository userRepository;
 
 	@InjectMocks
+	@Spy
 	private UserServiceImpl userService;
 
 	@Rule
@@ -117,6 +120,7 @@ public class UserServiceImplTest {
 	@Test
 	public void shouldEncodePassword() {
 		// given
+		disableValidation();
 		String rawPassword = "password";
 		String encodedPassword = "encoded";
 
@@ -221,5 +225,10 @@ public class UserServiceImplTest {
 						&& (msgValue == null || err.getMessageVariables()[0]
 								.equals(msgValue)))
 				.collect(Collectors.toList()).get(0);
+	}
+
+	private void disableValidation() {
+		doAnswer(args -> null).when(userService).validate(any(User.class),
+				any(ErrorsContainer.class));
 	}
 }

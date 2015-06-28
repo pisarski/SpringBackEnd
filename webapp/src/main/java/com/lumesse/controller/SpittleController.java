@@ -1,7 +1,7 @@
 package com.lumesse.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,14 +26,14 @@ public class SpittleController {
 		return "spittle.list";
 	}
 
-	@Secured("ROLE_USER")
+	@PreAuthorize("hasAuthority('ADD_SPITTLE')")
 	@RequestMapping(value = { "new", "save" }, method = RequestMethod.GET)
 	public String addSpittle(Model model) {
 		model.addAttribute("spittle", new Spittle());
 		return "spittle.new_edit";
 	}
 
-	@Secured("ROLE_USER")
+	@PreAuthorize("hasAuthority('ADD_SPITTLE')")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@Validate("spittle.new_edit")
 	public String saveSpittle(@ModelAttribute("spittle") Spittle spittle,

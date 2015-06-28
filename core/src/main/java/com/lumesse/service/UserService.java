@@ -2,11 +2,11 @@ package com.lumesse.service;
 
 import java.util.List;
 
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.lumesse.entity.User;
 
-@Secured("ROLE_ADMIN")
+@PreAuthorize("hasAuthority('USER_MANAGEMENT')")
 public interface UserService {
 
 	long MAX_USERS_COUNT = 20L;

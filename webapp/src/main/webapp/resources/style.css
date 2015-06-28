@@ -23,6 +23,14 @@ form .formSection, form .buttons {
 	margin-right: 20px;
 }
 
+form .formSection .checkboxWrapper input[type='checkbox'], form .formSection .checkboxWrapper label {
+	display: table-cell;
+}
+
+form .formSection .checkboxWrapper input[type='checkbox'] {
+	margin-right: 10px;
+}
+
 form .formSection :FIRST-CHILD {
 	margin-top: 10px;
 }

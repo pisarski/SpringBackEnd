@@ -75,8 +75,8 @@ public class UserAuthServiceImplTest {
 				userDetails.getAuthorities().stream()
 						.map(auth -> auth.getAuthority())
 						.collect(Collectors.toSet()),
-				Matchers.containsInAnyOrder(user.getRoles().stream()
-						.map(role -> role.getRole()).toArray()));
+				Matchers.containsInAnyOrder(user.getRights().stream()
+						.map(role -> role.name()).toArray()));
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lumesse.configuration.RootConfiguration;
 import com.lumesse.configuration.TestSecurityConfiguration;
+import com.lumesse.entity.enums.UserRight;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestSecurityConfiguration.class,
@@ -28,10 +29,10 @@ public abstract class AbstractSecurityIntegrationTest {
 		SecurityContextHolder.clearContext();
 	}
 
-	protected void loginWithRoles(String... roles) {
+	protected void loginWithRights(UserRight... rights) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role));
+		for (UserRight right : rights) {
+			authorities.add(new SimpleGrantedAuthority(right.name()));
 		}
 		User principal = new User("test", "test", authorities);
 		SecurityContextHolder.getContext().setAuthentication(

@@ -5,19 +5,19 @@
 	
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/spittle/list.css?appRev=${appRev}"/>">
 
-<sec:authorize access="isAuthenticated()">
-	<div class="linksContainer">
+<div class="linksContainer">
+	<sec:authorize access="hasAuthority('ADD_SPITTLE')">
 		<div class="newSpittleLink">
 			<a href="<c:url value="/spittle/new"/>"><s:message code="spittle.list.add"/></a>
 		</div>
-		
-		<sec:authorize access="hasRole('ROLE_ADMIN')"> 
-			<div class="userManagementLink">
-				<a href="<c:url value="/user/list"/>"><s:message code="spittle.list.usersLink"/></a>
-			</div>
-		</sec:authorize>
-	</div>
-</sec:authorize>
+	</sec:authorize>
+	
+	<sec:authorize access="hasAuthority('USER_MANAGEMENT')"> 
+		<div class="userManagementLink">
+			<a href="<c:url value="/user/list"/>"><s:message code="spittle.list.usersLink"/></a>
+		</div>
+	</sec:authorize>
+</div>
 
 <div class="spittleList">
 	<c:forEach var="spittle" items="${spittles}" varStatus="status">

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lumesse.builder.UserBuilder;
 import com.lumesse.entity.User;
-import com.lumesse.entity.enums.UserRole;
+import com.lumesse.entity.enums.UserRight;
 import com.lumesse.service.UserService;
 
 public class UserServiceImplIntegrationTest extends
@@ -25,13 +25,13 @@ public class UserServiceImplIntegrationTest extends
 	@Test
 	public void shouldFetchUserData() {
 		// given
-		loginWithRoles("ROLE_ADMIN");
+		loginWithRights(UserRight.USER_MANAGEMENT);
 
 		User user = new UserBuilder()
 				.withAnyValues()
 				.withId(null)
-				.withRoles(
-						Stream.of(UserRole.USER, UserRole.ADMIN).collect(
+				.withRights(
+						Stream.of(UserRight.USER_MANAGEMENT).collect(
 								Collectors.toSet())).build();
 
 		userService.save(user);
@@ -42,8 +42,8 @@ public class UserServiceImplIntegrationTest extends
 		// then
 		assertEquals(1, foundUsers.size());
 		assertThat(
-				user.getRoles(),
-				Matchers.containsInAnyOrder(foundUsers.get(0).getRoles()
+				user.getRights(),
+				Matchers.containsInAnyOrder(foundUsers.get(0).getRights()
 						.toArray()));
 	}
 }

@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 
-<%@ page import="com.lumesse.entity.enums.UserRole" %>
+<%@ page import="com.lumesse.entity.enums.UserRight" %>
 
 <c:choose>
 	<c:when test="${userLimitExceeded}">
@@ -50,19 +50,18 @@
 					<form:password path="password" cssErrorClass="error"/>
 					<form:errors path="password" cssClass="formErrorMessage"/>
 				</div>
-
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<div class="formSection">
-						<form:label path="roles" cssClass="required">Role</form:label>
-						<form:select path="roles" multiple="false" cssErrorClass="error">
-							<c:forEach var="role" items="<%= UserRole.values() %>">
-								<form:option value="${role}"><s:message code="${role.msgCode }"/></form:option>
-							</c:forEach>
-						</form:select>
-						<form:errors path="roles" cssClass="formErrorMessage"/>
-					</div>
-				</sec:authorize>
 				
+				<div class="formSection">
+					<form:label path="rights" cssClass="required"><s:message code="user.permissionsSection"/></form:label>
+					<form:errors path="rights" cssClass="formErrorMessage"/>
+					<c:forEach items="<%= UserRight.values()%>" var="userRight">
+						<div class="checkboxWrapper">
+							<form:checkbox path="rights" value="${userRight.name()}"/> 
+							<label><s:message code="${userRight.code}"/></label>
+						</div>
+					</c:forEach>
+				</div>
+
 				<div class="buttons">
 					<button type="submit"><s:message code="button.create"/></button>
 					<button type="button" onclick="location.href='<c:url value='/user/list'/>'"><s:message code="button.cancel"/></button>

@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lumesse.entity.User;
-import com.lumesse.entity.enums.UserRole;
+import com.lumesse.entity.enums.UserRight;
 
 /**
  * Stores information about logged user.
@@ -66,17 +64,13 @@ public class SpittleUserDetails implements UserDetails {
 	}
 
 	private void initAuthoritiesCollection(User user) {
-		Set<UserRole> roles = user.getRoles();
-		if (roles == null) {
+		Set<UserRight> rights = user.getRights();
+		if (rights == null) {
 			return;
 		}
 
-		if (roles.contains(UserRole.ADMIN)) {
-			roles = Stream.of(UserRole.values()).collect(Collectors.toSet());
-		}
-
-		for (UserRole role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getRole()));
+		for (UserRight right : rights) {
+			authorities.add(new SimpleGrantedAuthority(right.name()));
 		}
 	}
 }

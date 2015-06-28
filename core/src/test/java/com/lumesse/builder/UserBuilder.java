@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.lumesse.entity.User;
-import com.lumesse.entity.enums.UserRole;
+import com.lumesse.entity.enums.UserRight;
 
 public class UserBuilder {
 
@@ -16,7 +16,7 @@ public class UserBuilder {
 	private String username;
 	private String password;
 	private boolean enabled = true;
-	private Set<UserRole> roles = new HashSet<>();
+	private Set<UserRight> rights = new HashSet<>();
 
 	public UserBuilder withId(Long id) {
 		this.id = id;
@@ -48,8 +48,8 @@ public class UserBuilder {
 		return this;
 	}
 
-	public UserBuilder withRoles(Set<UserRole> roles) {
-		this.roles = roles;
+	public UserBuilder withRights(Set<UserRight> rights) {
+		this.rights = rights;
 		return this;
 	}
 
@@ -59,8 +59,7 @@ public class UserBuilder {
 		this.lastName = "lastName";
 		this.username = "username";
 		this.password = "password";
-		this.roles = Stream.of(UserRole.USER, UserRole.ADMIN).collect(
-				Collectors.toSet());
+		this.rights = Stream.of(UserRight.values()).collect(Collectors.toSet());
 
 		return this;
 	}
@@ -73,7 +72,7 @@ public class UserBuilder {
 		user.setPassword(password);
 		user.setUsername(username);
 		user.setEnabled(enabled);
-		user.setRoles(roles);
+		user.setRights(rights);
 		return user;
 	}
 

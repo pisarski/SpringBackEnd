@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 
 import com.lumesse.entity.Spittle;
+import com.lumesse.entity.enums.UserRight;
 import com.lumesse.exception.ValidationException;
 import com.lumesse.service.SpittleService;
 
@@ -22,7 +23,7 @@ public class SpittleServiceSecurityIntegrationTest extends
 	@Test
 	public void shouldThrowAccessDeniedExceptionForNonAuthUser() {
 		// given
-		loginWithRoles("ROLE_TEST");
+		loginWithRights(UserRight.USER_MANAGEMENT);
 
 		// then
 		expected.expect(AccessDeniedException.class);
@@ -32,9 +33,9 @@ public class SpittleServiceSecurityIntegrationTest extends
 	}
 
 	@Test
-	public void shouldInvokeSaveForRoleUser() {
+	public void shouldInvokeSaveForProperRight() {
 		// given
-		loginWithRoles("ROLE_USER");
+		loginWithRights(UserRight.ADD_SPITTLE);
 
 		// then
 		expected.expect(ValidationException.class);

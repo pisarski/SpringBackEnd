@@ -14,11 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import net.sf.oval.constraint.Length;
+import net.sf.oval.constraint.MinSize;
+import net.sf.oval.constraint.NotNull;
 
-import com.lumesse.entity.enums.UserRole;
+import com.lumesse.entity.enums.UserRight;
 
 @Entity
 @Table(name = "SpittrUser")
@@ -47,10 +48,12 @@ public class User extends BaseEntity {
 
 	private boolean enabled = true;
 
-	@ElementCollection(targetClass = UserRole.class)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "userId"))
+	@ElementCollection(targetClass = UserRight.class)
+	@JoinTable(name = "user_rights", joinColumns = @JoinColumn(name = "userId"))
 	@Enumerated(EnumType.STRING)
-	private Set<UserRole> roles = new HashSet<>();
+	@MinSize(1)
+	@NotNull
+	private Set<UserRight> rights = new HashSet<>();
 
 	@Override
 	public Long getId() {
@@ -101,12 +104,12 @@ public class User extends BaseEntity {
 		this.enabled = enabled;
 	}
 
-	public Set<UserRole> getRoles() {
-		return roles;
+	public Set<UserRight> getRights() {
+		return rights;
 	}
 
-	public void setRoles(Set<UserRole> roles) {
-		this.roles = roles;
+	public void setRights(Set<UserRight> rights) {
+		this.rights = rights;
 	}
 
 }

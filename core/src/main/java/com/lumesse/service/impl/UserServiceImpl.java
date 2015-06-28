@@ -34,7 +34,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 	}
 
 	private void fetchUserData(User user) {
-		user.getRoles().size();
+		user.getRights().size();
 	}
 
 	@Override
