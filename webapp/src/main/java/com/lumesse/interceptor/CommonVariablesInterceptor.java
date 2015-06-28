@@ -8,6 +8,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+/**
+ * Interceptor which sets variables used on many (all) pages. In most cases this
+ * variables are used either on header or footer.
+ */
 public class CommonVariablesInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired

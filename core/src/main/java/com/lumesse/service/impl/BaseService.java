@@ -14,6 +14,9 @@ import com.lumesse.exception.CustomError;
 import com.lumesse.exception.ErrorsContainer;
 import com.lumesse.exception.ValidationException;
 
+/**
+ * Base service class with common service methods.
+ */
 public abstract class BaseService {
 
 	protected void validate(Object entity) {

@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.lumesse.entity.User;
 import com.lumesse.entity.enums.UserRole;
 
+/**
+ * Stores information about logged user.
+ */
 public class SpittleUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = -5584512166922680774L;
