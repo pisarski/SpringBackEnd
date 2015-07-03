@@ -2,8 +2,7 @@ package com.lumesse.controller;
 
 import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -74,29 +73,53 @@ public class UserControllerTest {
 				// then
 				.andExpect(model().attribute("user", isEmptyUser()))
 				.andExpect(model().attribute("userLimitExceeded", false))
+				.andExpect(model().attribute("submitBtnCode", "button.create"))
+				.andExpect(model().attribute("saveActionUrl", "/user/new"))
+				.andExpect(view().name("user.new_edit"))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void shouldDisplayEditUserForm() throws Exception {
+		// given
+		long id = 654L;
+		User user = new User();
+		user.setId(id);
+		when(userService.getById(id)).thenReturn(user);
+
+		// when
+		mockMvc.perform(get("/user/edit/" + id))
+
+				// then
+				.andExpect(model().attribute("user", user))
+				.andExpect(model().attribute("userLimitExceeded", false))
+				.andExpect(model().attribute("submitBtnCode", "button.edit"))
+				.andExpect(
+						model().attribute("saveActionUrl", "/user/edit/" + id))
 				.andExpect(view().name("user.new_edit"))
 				.andExpect(status().isOk());
 	}
 
 	@Test
 	@Parameters(method = "getParametersForShouldInsertUserExceededLimitVariable")
-	public void shouldInsertUserExceededLimitVariable(long numOfUsers)
-			throws Exception {
+	public void shouldInsertUserExceededLimitVariable(long numOfUsers,
+			String url, User user) throws Exception {
 		// given
+		when(userService.getById(anyLong())).thenReturn(user);
 		when(userService.getNumberOfUsers()).thenReturn(numOfUsers);
 
 		// when
-		mockMvc.perform(get("/user/new"))
+		mockMvc.perform(get(url))
 
 				// then
-				.andExpect(model().attribute("user", isEmptyUser()))
 				.andExpect(model().attribute("userLimitExceeded", true))
 				.andExpect(view().name("user.new_edit"))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	public void shouldSaveNewUser() throws Exception {
+	@Parameters(method = "getParaetersForShouldSaveUser")
+	public void shouldSaveUser(String url) throws Exception {
 		// given
 		String firstName = "firstName";
 		String lastName = "lastName";
@@ -105,7 +128,7 @@ public class UserControllerTest {
 
 		// when
 		mockMvc.perform(
-				post("/user/new").param("firstName", firstName)
+				post(url).param("firstName", firstName)
 						.param("lastName", lastName)
 						.param("username", username)
 						.param("password", password))
@@ -121,23 +144,6 @@ public class UserControllerTest {
 		assertEquals(lastName, captured.getLastName());
 		assertEquals(username, captured.getUsername());
 		assertEquals(password, captured.getPassword());
-	}
-
-	@Test
-	@Parameters(method = "getParametersForShouldSaveUserIfUsernameIsUnique")
-	public void shouldSaveUserIfUsernameIsUnique(String userId,
-			User existingUser) throws Exception {
-		// given
-		when(userService.findByUsername(anyString())).thenReturn(existingUser);
-
-		// when
-		mockMvc.perform(post("/user/new").param("id", userId))
-
-				// then
-				.andExpect(view().name("redirect:/user/list"))
-				.andExpect(status().is3xxRedirection());
-
-		verify(userService).save(any(User.class));
 	}
 
 	private Matcher<User> isEmptyUser() {
@@ -162,15 +168,18 @@ public class UserControllerTest {
 
 	@SuppressWarnings("unused")
 	private Object[] getParametersForShouldInsertUserExceededLimitVariable() {
-		return $($(UserService.MAX_USERS_COUNT),
-				$(UserService.MAX_USERS_COUNT + 1));
+		long id = 654L;
+		User user = new User();
+		user.setId(id);
+		return $($(UserService.MAX_USERS_COUNT, "/user/new", null),
+				$(UserService.MAX_USERS_COUNT + 1, "/user/new", null),
+				$(UserService.MAX_USERS_COUNT, "/user/edit/43", user),
+				$(UserService.MAX_USERS_COUNT + 1, "/user/edit/43", user));
 	}
 
 	@SuppressWarnings("unused")
-	private Object[] getParametersForShouldSaveUserIfUsernameIsUnique() {
-		User userWithId = new User();
-		userWithId.setId(1L);
-		return $($(null, null), $(userWithId.getId().toString(), userWithId));
+	private String[] getParaetersForShouldSaveUser() {
+		return new String[] { "/user/new", "/user/edit/54" };
 	}
 
 }

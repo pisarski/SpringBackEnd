@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import com.lumesse.entity.enums.UserRight;
 import com.lumesse.repository.UserRepository;
 
 @Component
+@Profile({ "dev", "prod" })
 public class InitService implements ApplicationListener<ApplicationEvent> {
 
 	@Autowired

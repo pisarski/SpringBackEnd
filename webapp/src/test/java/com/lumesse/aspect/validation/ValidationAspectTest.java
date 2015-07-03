@@ -1,6 +1,7 @@
 package com.lumesse.aspect.validation;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -109,6 +110,106 @@ public class ValidationAspectTest {
 
 		// then
 		assertEquals(errorView, result);
+	}
+
+	@Test
+	public void shouldInvokeInitMethod() throws Throwable {
+		// given
+		TestHelper withInitMethod = new TestHelper();
+		Validate validate = withInitMethod.getClass()
+				.getMethod("withInitMethod", Errors.class, String.class)
+				.getAnnotation(Validate.class);
+
+		String stringParam = "param";
+		when(point.proceed()).thenThrow(
+				new ValidationException(new ArrayList<CustomError>()));
+		when(point.getArgs()).thenReturn(new Object[] { errors, stringParam });
+		when(point.getTarget()).thenReturn(withInitMethod);
+
+		// when
+		String result = validationAspect.aroundMethodWithValidationEnabled(
+				point, validate);
+
+		// then
+		assertEquals("error_view", result);
+		assertTrue(withInitMethod.isInitMethodInvoked());
+		assertEquals(stringParam, withInitMethod.getArg());
+	}
+
+	@Test
+	public void shouldThrowExceptionIfNoInitMethodFound() throws Throwable {
+		// given
+		TestHelper withoutInitMethod = new TestHelper();
+		Validate validate = withoutInitMethod.getClass()
+				.getMethod("withoutInitMethod").getAnnotation(Validate.class);
+
+		when(point.proceed()).thenThrow(
+				new ValidationException(new ArrayList<CustomError>()));
+		when(point.getTarget()).thenReturn(withoutInitMethod);
+
+		// then
+		expected.expect(IllegalStateException.class);
+		expected.expectMessage("Method " + validate.initMethod() + " not found");
+
+		// when
+		validationAspect.aroundMethodWithValidationEnabled(point, validate);
+
+	}
+
+	@Test
+	public void shouldThrowExceptionIfTooFewParameters() throws Throwable {
+		// given
+		TestHelper notEnoughParameters = new TestHelper();
+		Validate validate = notEnoughParameters.getClass()
+				.getMethod("notEnoughParameters").getAnnotation(Validate.class);
+
+		when(point.proceed()).thenThrow(
+				new ValidationException(new ArrayList<CustomError>()));
+		when(point.getTarget()).thenReturn(notEnoughParameters);
+
+		// then
+		expected.expect(IllegalStateException.class);
+		expected.expectMessage("There should be one parameter of type "
+				+ String.class.getName() + ". Error in "
+				+ point.getSignature().getDeclaringTypeName() + "."
+				+ point.getSignature().getName());
+
+		// when
+		validationAspect.aroundMethodWithValidationEnabled(point, validate);
+	}
+
+	private static class TestHelper {
+		private boolean initMethodInvoked = false;
+		private String arg;
+
+		@Validate(value = "error_view", initMethod = "initMethod")
+		public String withInitMethod(Errors arg, String arg2) {
+			return "";
+		}
+
+		@Validate(value = "error_view", initMethod = "nonExisting")
+		public String withoutInitMethod() {
+			return "";
+		}
+
+		@Validate(value = "error_view", initMethod = "initMethod")
+		public String notEnoughParameters() {
+			return "";
+		}
+
+		@SuppressWarnings("unused")
+		private void initMethod(String arg) {
+			initMethodInvoked = true;
+			this.arg = arg;
+		}
+
+		public boolean isInitMethodInvoked() {
+			return initMethodInvoked;
+		}
+
+		public String getArg() {
+			return arg;
+		}
 	}
 
 }

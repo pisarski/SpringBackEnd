@@ -1,5 +1,6 @@
 package com.lumesse.controller;
 
+import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,11 +15,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.util.ArrayList;
 import java.util.List;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.lumesse.entity.Spittle;
 import com.lumesse.service.SpittleService;
 
+@RunWith(JUnitParamsRunner.class)
 public class SpittleControllerTest {
 
 	@Mock
@@ -66,20 +72,42 @@ public class SpittleControllerTest {
 
 				// then
 				.andExpect(model().attribute("spittle", isEmptySpittle()))
+				.andExpect(model().attribute("submitBtnCode", "button.create"))
+				.andExpect(model().attribute("saveActionUrl", "new"))
 				.andExpect(view().name("spittle.new_edit"))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	public void shouldSaveNewSpittle() throws Exception {
+	public void shouldDisplayEditSpittleForm() throws Exception {
+		// given
+		long id = 69685L;
+		Spittle spittle = new Spittle();
+		spittle.setId(id);
+
+		when(spittleService.getById(id)).thenReturn(spittle);
+
+		// when
+		mockMvc.perform(get("/spittle/edit/" + id))
+
+				// then
+				.andExpect(model().attribute("spittle", spittle))
+				.andExpect(model().attribute("submitBtnCode", "button.edit"))
+				.andExpect(model().attribute("saveActionUrl", "edit/" + id))
+				.andExpect(view().name("spittle.new_edit"))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Parameters(method = "getParameterForShouldSaveSpittle")
+	public void shouldSaveSpittle(String url) throws Exception {
 		// given
 		String title = "title";
 		String message = "message";
 
 		// when
 		mockMvc.perform(
-				post("/spittle/new").param("title", title).param("message",
-						message))
+				post(url).param("title", title).param("message", message))
 
 				// then
 				.andExpect(redirectedUrl("/spittle/list"))
@@ -110,6 +138,11 @@ public class SpittleControllerTest {
 						&& spittle.getTime() == null;
 			}
 		};
+	}
+
+	@SuppressWarnings("unused")
+	private Object[] getParameterForShouldSaveSpittle() {
+		return $("/spittle/new", "/spittle/edit/54");
 	}
 
 }
