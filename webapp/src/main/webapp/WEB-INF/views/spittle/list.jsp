@@ -25,7 +25,7 @@
 			<div class="title">
 				<span class="titleText">
 					<c:set var="canEdit" value="false" /> 
-					<sec:authorize access="hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id.toString() == '${spittle.createUser.id}')">
+					<sec:authorize access="hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id == ${spittle.createUser.id})">
 						<c:set var="canEdit" value="true" /> 
 					</sec:authorize>
 					

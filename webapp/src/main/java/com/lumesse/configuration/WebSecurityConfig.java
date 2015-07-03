@@ -1,8 +1,5 @@
 package com.lumesse.configuration;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.lumesse.entity.enums.UserRight;
 import com.lumesse.service.UserAuthService;
 
 @Configuration
@@ -33,14 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
-
-		auth.inMemoryAuthentication()
-				.withUser("admin")
-				.password("admin")
-				.authorities(
-						Stream.of(UserRight.USER_MANAGEMENT)
-								.map(right -> new SimpleGrantedAuthority(right
-										.name())).collect(Collectors.toList()));
 
 		auth.userDetailsService(userAuthService).passwordEncoder(
 				passwordEncoder);
