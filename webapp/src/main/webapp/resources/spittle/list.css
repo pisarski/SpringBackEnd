@@ -1,12 +1,14 @@
 .spittleList .spittle {
 	margin-bottom: 14px;
+	display: table;
+	width: 100%;
 }
 
 .spittleList .spittle .title {
 	font-weight: bold;
 }
 
-.spittleList .spittle .title .spittleDate {
+.spittleList .spittle .title .actions {
 	float: right;
 	margin-left: 10px;
 }
@@ -17,18 +19,38 @@
 
 .spittleList .spittle .message {
 	width: 100%;
+	width: 100%;
 	padding-top: 10px;
 }
 
-.spittleList .spittle hr {
+.spittleList hr {
 	border: 0;
 	height: 1px;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0),
 		rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
-.spittleList .spittle hr.last {
+.spittleList hr.last {
 	display: none;
+}
+
+.spittleList .spittle .userInfo {
+	width: 20%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.spittleList .spittle .userInfo {
+	font-size: 10px;
+}
+
+.spittleList .spittle .userInfo .userImage img {
+	height: 100px;
+}
+
+.spittleList .spittle .spittleInfo {
+	display: table-cell;
+	width: 80%;	
 }
 
 .linksContainer {

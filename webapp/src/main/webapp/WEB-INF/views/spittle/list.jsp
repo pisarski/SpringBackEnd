@@ -22,30 +22,43 @@
 <div class="spittleList">
 	<c:forEach var="spittle" items="${spittles}" varStatus="status">
 		<div class="spittle">
-			<div class="title">
-				<span class="titleText">
-					<c:set var="canEdit" value="false" /> 
-					<sec:authorize access="hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id == ${spittle.createUser.id})">
-						<c:set var="canEdit" value="true" /> 
-					</sec:authorize>
-					
-					<c:if test="${canEdit}">
-						<a href="<c:url value='/spittle/edit/${spittle.id}'/>">
+			<div class="userInfo">
+				<div class="dates">
+					<c:set var="user" value="${spittle.createUser}" />
+					<div>Created: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.time}"/></div>
+					<c:if test="${spittle.updateTime != null}">
+						<c:set var="user" value="${spittle.editUser}" />
+						<div>Edited: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.updateTime}"/></div>
 					</c:if>
+				</div>
+				<div class="userImage">
+					<img src="<c:url value="/resources/images/no-picture-icon1.png"/>"/>
+				</div>
+				<div class="userName">by: <c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></div>
+			</div>
+			<div class="spittleInfo">
+				<div class="title">
+					<span class="titleText">
+						<c:set var="canEdit" value="false" /> 
+						<sec:authorize access="hasAuthority('EDIT_ALL_SPITTLES') or (hasAuthority('EDIT_OWN_SPITTLE') and principal.user.id == ${spittle.createUser.id})">
+							<c:set var="canEdit" value="true" /> 
+						</sec:authorize>
 						<c:out value="${spittle.title}" />
-					<c:if test="${canEdit}">
-						</a>
-					</c:if>
-				</span>
-				<span class="spittleDate">
-					<fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.time}"/>
-				</span>
+					</span>
+					<span class="actions">
+						<c:if test="${canEdit}">
+							<a href="<c:url value='/spittle/edit/${spittle.id}'/>">
+								<img src="<c:url value="/resources/images/edit.png"/>"/>
+							</a>
+						</c:if>
+					</span>
+				</div>
+				<div class="message">
+					<c:out value="${spittle.message}" />
+				</div>
 			</div>
-			<div class="message">
-				<c:out value="${spittle.message}" />
-			</div>
-			<hr <c:if test="${status.index == spittles.size()-1}">class="last"</c:if>/>
 		</div>
+		<hr <c:if test="${status.index == spittles.size()-1}">class="last"</c:if>/>
 	</c:forEach>
 </div>
 
