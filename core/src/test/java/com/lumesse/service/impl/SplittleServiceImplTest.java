@@ -107,12 +107,6 @@ public class SplittleServiceImplTest {
 		verify(spittleRepository).save(spittle);
 	}
 
-	private void setSecurityContext() {
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(userDetails, null,
-						userDetails.getAuthorities()));
-	}
-
 	@Test
 	public void shouldSetTimeBeforeSave() {
 		// given
@@ -224,6 +218,12 @@ public class SplittleServiceImplTest {
 
 		// when
 		spittleService.save(toSave);
+	}
+
+	private void setSecurityContext() {
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken(userDetails, null,
+						userDetails.getAuthorities()));
 	}
 
 	private Spittle getSpittle(Date date, String msg) {

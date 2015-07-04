@@ -42,9 +42,39 @@ public abstract class AbstractSecurityIntegrationTest {
 		user.setUsername("test");
 		user.setId(785438L);
 		user.setRights(Stream.of(rights).collect(Collectors.toSet()));
+		loginAsUser(user);
+	}
+
+	protected void loginAsUser(User user) {
 		SpittleUserDetails details = new SpittleUserDetails(user);
 		SecurityContextHolder.getContext().setAuthentication(
 				new UsernamePasswordAuthenticationToken(details, null, details
 						.getAuthorities()));
+	}
+
+	protected void runWithParams(Run run, Object[] params) {
+		runWithParamsAndExpectedException(run, params, null);
+	}
+
+	protected void runWithParamsAndExpectedException(Run run, Object[] params,
+			Class<? extends Throwable> expected) {
+		for (Object param : params) {
+			try {
+				System.out.println("Run with param: " + param);
+				run.run(param);
+				if (expected != null) {
+					throw new RuntimeException("Exception "
+							+ expected.getName() + "was expected");
+				}
+			} catch (Throwable e) {
+				if (expected == null || !expected.isInstance(e)) {
+					throw new RuntimeException("Failed for param " + param, e);
+				}
+			}
+		}
+	}
+
+	public interface Run {
+		void run(Object param);
 	}
 }

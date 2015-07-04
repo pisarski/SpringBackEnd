@@ -70,7 +70,7 @@ public class InitServiceTest {
 	public void shouldCreateAdmin() {
 		// given
 		String encodedPassword = "encoded";
-		when(userRepository.findByUsername("ädmin")).thenReturn(null);
+		when(userRepository.findByUsername("admin")).thenReturn(null);
 		when(encoder.encode("admin")).thenReturn(encodedPassword);
 
 		// when
