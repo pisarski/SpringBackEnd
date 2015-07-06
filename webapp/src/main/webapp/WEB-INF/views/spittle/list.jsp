@@ -25,16 +25,16 @@
 			<div class="userInfo">
 				<div class="dates">
 					<c:set var="user" value="${spittle.createUser}" />
-					<div>Created: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.time}"/></div>
+					<div><s:message code="spittle.list.created"/>: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.time}"/></div>
 					<c:if test="${spittle.updateTime != null}">
 						<c:set var="user" value="${spittle.editUser}" />
-						<div>Edited: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.updateTime}"/></div>
+						<div><s:message code="spittle.list.edited"/>: <fmt:formatDate pattern="dd-MM-yyyy HH:mm:ss" value="${spittle.updateTime}"/></div>
 					</c:if>
 				</div>
 				<div class="userImage">
 					<img src="<c:url value="/resources/images/no-picture-icon1.png"/>"/>
 				</div>
-				<div class="userName">by: <c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></div>
+				<div class="userName"><s:message code="spittle.list.by"/>: <c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></div>
 			</div>
 			<div class="spittleInfo">
 				<div class="title">
