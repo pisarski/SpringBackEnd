@@ -38,7 +38,7 @@ public class DevDbConfig {
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 		dataSource.setInitialSize(1);
-		dataSource.setMaxActive(3);
+		dataSource.setMaxActive(1);
 		return dataSource;
 	}
 
