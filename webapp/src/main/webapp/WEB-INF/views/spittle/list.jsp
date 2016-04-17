@@ -53,9 +53,7 @@
 						</c:if>
 					</span>
 				</div>
-				<div class="message">
-					<c:out value="${spittle.message}" />
-				</div>
+				<div class="message"><c:out value="${spittle.message}" /></div>
 			</div>
 		</div>
 		<hr <c:if test="${status.index == spittles.size()-1}">class="last"</c:if>/>
