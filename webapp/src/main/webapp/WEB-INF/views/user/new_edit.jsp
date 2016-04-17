@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 
-<%@ page import="com.lumesse.entity.enums.UserRight" %>
+<%@ page import="com.gmail.sebastian.pisarski.entity.enums.UserRight" %>
 
 <c:choose>
 	<c:when test="${userLimitExceeded}">
