@@ -9,7 +9,6 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.gmail.sebastian.pisarski.context.listener.MyContextLoaderListener;
-import com.gmail.sebastian.pisarski.rest.Test;
 
 public class RestAppConfiguration extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
@@ -26,12 +25,12 @@ public class RestAppConfiguration extends
 
 		servletContext.setInitParameter("resteasy.servlet.mapping.prefix",
 				"/rest");
-		servletContext.setInitParameter("resteasy.resources",
-				Test.class.getName());
 		servletContext.setInitParameter("contextClass",
 				AnnotationConfigWebApplicationContext.class.getName());
 		servletContext.setInitParameter("contextConfigLocation",
 				RootConfiguration.class.getName());
+		servletContext.setInitParameter("javax.ws.rs.Application",
+				RestListAutoConfiguration.class.getName());
 	}
 
 	@Override

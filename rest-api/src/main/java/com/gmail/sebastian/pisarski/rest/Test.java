@@ -19,8 +19,7 @@ public class Test {
 
 	@GET
 	@Produces("application/json")
-	@Path("/test")
 	public Spittle test() {
-		return new Spittle();
+		return service.findAllSorted().get(0);
 	}
 }

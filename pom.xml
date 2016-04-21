@@ -11,6 +11,7 @@
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.security.version>4.0.1.RELEASE</spring.security.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
+		<resteasy.version>3.0.16.Final</resteasy.version>
 	</properties>
 
 	<dependencyManagement>
@@ -209,7 +210,6 @@
 				<groupId>org.reflections</groupId>
 				<artifactId>reflections</artifactId>
 				<version>0.9.10</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
@@ -231,6 +231,27 @@
 				<groupId>net.sf.oval</groupId>
 				<artifactId>oval</artifactId>
 				<version>1.84</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-spring</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxb-provider</artifactId>
+				<version>${resteasy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jackson-provider</artifactId>
+				<version>${resteasy.version}</version>
 			</dependency>
 
 		</dependencies>

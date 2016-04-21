@@ -9,12 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import net.sf.oval.constraint.Length;
 
 @Entity
-@XmlRootElement
 public class Spittle extends BaseEntity {
 
 	private static final long serialVersionUID = -3382093166703764496L;
