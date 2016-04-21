@@ -1,4 +1,4 @@
-package com.gmail.sebastian.pisarski.configuration;
+package com.gmail.sebastian.pisarski.web;
 
 import java.util.Locale;
 
@@ -26,7 +26,8 @@ import com.gmail.sebastian.pisarski.interceptor.CommonVariablesInterceptor;
 @Configuration
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@ComponentScan({ "com.gmail.sebastian.pisarski.controller", "com.gmail.sebastian.pisarski.aspect" })
+@ComponentScan({ "com.gmail.sebastian.pisarski.controller",
+		"com.gmail.sebastian.pisarski.aspect" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
