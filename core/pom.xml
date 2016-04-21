@@ -13,6 +13,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>com.gmail.sebastian.pisarski</groupId>
 			<artifactId>domain</artifactId>

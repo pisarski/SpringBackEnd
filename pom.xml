@@ -25,7 +25,11 @@
 				<artifactId>domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.gmail.sebastian.pisarski</groupId>
+				<artifactId>rest-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -447,5 +451,6 @@
 		<module>webapp</module>
 		<module>domain</module>
 		<module>core</module>
+		<module>rest-api</module>
 	</modules>
 </project>

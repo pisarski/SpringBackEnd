@@ -2,8 +2,6 @@ package com.gmail.sebastian.pisarski.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.gmail.sebastian.pisarski.configuration.RootConfiguration;
-
 public class WebAppConfiguration extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -14,12 +12,12 @@ public class WebAppConfiguration extends
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { WebConfig.class };
+		return new Class<?>[] { WebConfig.class, RestConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/" };
+		return new String[] { "/", "/api" };
 	}
 
 }
