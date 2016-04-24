@@ -1,16 +1,10 @@
-package com.gmail.sebastian.pisarski.dto;
+package com.gmail.sebastian.pisarski.dto.spittle;
 
 import java.util.Date;
 
 import com.gmail.sebastian.pisarski.entity.Spittle;
 
-public class SpittleDto extends BaseDto<Spittle> {
-
-	private Long id;
-
-	private String message;
-
-	private String title;
+public class SpittleDto extends BasicSpittleDto {
 
 	private Date time;
 
@@ -22,30 +16,6 @@ public class SpittleDto extends BaseDto<Spittle> {
 
 	public SpittleDto(Spittle entity) {
 		super(entity);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public Date getTime() {

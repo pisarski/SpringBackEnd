@@ -1,4 +1,4 @@
-package com.gmail.sebastian.pisarski.dto;
+package com.gmail.sebastian.pisarski.dto.spittle;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,5 +27,10 @@ public class SpittleDtoTest {
 		assertEquals(spittle.getUpdateTime(), dto.getUpdateTime());
 		assertEquals(spittle.getCreateUser().getId(), dto.getCreateUserId());
 		assertEquals(spittle.getEditUser().getId(), dto.getEditUserId());
+	}
+
+	@Test
+	public void shouldReturnProperEntityFromDto() {
+		// TODO
 	}
 }
