@@ -40,6 +40,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
@@ -228,12 +229,12 @@ public class SplittleServiceImplTest {
 	}
 
 	private Spittle getSpittle(Date date, String msg) {
-		Spittle spittle = new Spittle();
-		spittle.setMessage(msg);
-		spittle.setTime(date);
-		spittle.setTitle("title");
-		spittle.setCreateUser(new User());
-		return spittle;
+		return new SpittleBuilder()
+			.withMessage(msg)
+			.withTime(date)
+			.withTitle("title")
+			.withCreateUser(new User())
+			.build();
 	}
 
 	private Date toDate(String date) {

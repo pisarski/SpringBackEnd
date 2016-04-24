@@ -14,10 +14,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
 import com.gmail.sebastian.pisarski.configuration.DevDbConfig;
 import com.gmail.sebastian.pisarski.configuration.DomainConfiguration;
 import com.gmail.sebastian.pisarski.entity.Spittle;
-import com.gmail.sebastian.pisarski.repository.SpittleRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DomainConfiguration.class, DevDbConfig.class })
@@ -30,10 +30,7 @@ public class SpittleRepositoryIntegrationTest {
 	@Test
 	public void shouldFindAllSpittles() {
 		// given
-		Spittle spittle = new Spittle();
-		spittle.setMessage("msg");
-		spittle.setTitle("title");
-		spittle.setTime(new Date());
+		Spittle spittle = new SpittleBuilder().withMessage("msg").withTitle("title").withTime(new Date()).build();
 		spittleRepository.save(spittle);
 
 		// when

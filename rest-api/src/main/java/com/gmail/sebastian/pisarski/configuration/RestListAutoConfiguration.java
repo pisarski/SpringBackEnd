@@ -11,8 +11,7 @@ public class RestListAutoConfiguration extends Application {
 
 	@Override
 	public Set<Class<?>> getClasses() {
-		Reflections reflections = new Reflections(
-				"com.gmail.sebastian.pisarski.rest");
+		Reflections reflections = new Reflections("com.gmail.sebastian.pisarski.rest");
 		return reflections.getTypesAnnotatedWith(Path.class);
 	}
 

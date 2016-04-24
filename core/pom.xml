@@ -55,6 +55,12 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.gmail.sebastian.pisarski</groupId>
+			<artifactId>domain</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

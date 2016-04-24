@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
 import com.gmail.sebastian.pisarski.controller.SpittleController;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 import com.gmail.sebastian.pisarski.service.SpittleService;
@@ -83,8 +84,7 @@ public class SpittleControllerTest {
 	public void shouldDisplayEditSpittleForm() throws Exception {
 		// given
 		long id = 69685L;
-		Spittle spittle = new Spittle();
-		spittle.setId(id);
+		Spittle spittle = new SpittleBuilder().withId(id).build();
 
 		when(spittleService.getById(id)).thenReturn(spittle);
 

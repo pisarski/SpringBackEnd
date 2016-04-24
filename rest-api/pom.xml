@@ -14,7 +14,10 @@
 			<groupId>com.gmail.sebastian.pisarski</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.gmail.sebastian.pisarski</groupId>
+			<artifactId>dto</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 
+import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
+import com.gmail.sebastian.pisarski.builder.UserBuilder;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
@@ -64,8 +66,7 @@ public class SpittleServiceSecurityIntegrationTest extends
 		runWithParams(right -> {
 			// given
 				loginWithRights((UserRight) right);
-				Spittle spittle = new Spittle();
-				spittle.setId(75843L);
+				Spittle spittle = new SpittleBuilder().withId(75843L).build();
 
 				// when
 				spittleService.save(spittle);
@@ -85,8 +86,7 @@ public class SpittleServiceSecurityIntegrationTest extends
 		runWithParamsAndExpectedException(right -> {
 			// given
 				loginWithRights((UserRight) right);
-				Spittle spittle = new Spittle();
-				spittle.setId(89L);
+				Spittle spittle = new SpittleBuilder().withId(89L).build();
 
 				// when
 				spittleService.save(spittle);
@@ -96,14 +96,14 @@ public class SpittleServiceSecurityIntegrationTest extends
 
 	@Test
 	public void shouldGetSpittleById() {
-		User createdUser = new User();
-		createdUser.setId(1L);
-		createdUser.setRights(Stream.of(UserRight.EDIT_OWN_SPITTLE).collect(
-				Collectors.toSet()));
+		User createdUser = new UserBuilder()
+			.withId(1L)
+			.withRights(Stream.of(UserRight.EDIT_OWN_SPITTLE).collect(Collectors.toSet()))
+			.build();
 
-		User userWithEditAllRight = new User();
-		userWithEditAllRight.setRights(Stream.of(UserRight.EDIT_ALL_SPITTLES)
-				.collect(Collectors.toSet()));
+		User userWithEditAllRight = new UserBuilder()
+				.withRights(Stream.of(UserRight.EDIT_ALL_SPITTLES).collect(Collectors.toSet()))
+				.build();
 
 		runWithParams(user -> {
 			// given
@@ -125,10 +125,10 @@ public class SpittleServiceSecurityIntegrationTest extends
 						&& right != UserRight.EDIT_OWN_SPITTLE).toArray();
 		runWithParamsAndExpectedException(right -> {
 			// given
-				User createdUser = new User();
-				createdUser.setId(1L);
-				createdUser.setRights(Stream.of((UserRight) right).collect(
-						Collectors.toSet()));
+				User createdUser = new UserBuilder()
+						.withId(1L)
+						.withRights(Stream.of((UserRight) right).collect(Collectors.toSet()))
+						.build();
 				loginAsUser(createdUser);
 
 				// when

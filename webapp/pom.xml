@@ -46,6 +46,11 @@
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-jsp</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.gmail.sebastian.pisarski</groupId>
+			<artifactId>domain</artifactId>
+			<type>test-jar</type>
+		</dependency>
 	</dependencies>
 
 	<build>
