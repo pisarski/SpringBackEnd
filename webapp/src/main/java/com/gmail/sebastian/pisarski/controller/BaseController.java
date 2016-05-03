@@ -19,7 +19,7 @@ import com.gmail.sebastian.pisarski.editors.DateEditor;
 @ControllerAdvice
 public class BaseController {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(BaseController.class);
 
 	@InitBinder
@@ -31,7 +31,7 @@ public class BaseController {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ModelAndView commonExceptionHandler(Throwable exception) {
 		UUID uuid = UUID.randomUUID();
-		logger.error("Exception occured: " + uuid, exception);
+		LOGGER.error("Exception occured: " + uuid, exception);
 		ModelAndView model = new ModelAndView("exception");
 		model.addObject("uuid", uuid.toString());
 		return model;

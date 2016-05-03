@@ -10,27 +10,21 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.gmail.sebastian.pisarski.context.listener.MyContextLoaderListener;
 
-public class RestAppConfiguration extends
-		AbstractAnnotationConfigDispatcherServletInitializer {
+public class RestAppConfiguration extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected void registerDispatcherServlet(ServletContext servletContext) {
 		String servletName = "resteasy-servlet";
 
 		HttpServletDispatcher servletDispatcher = new HttpServletDispatcher();
-		ServletRegistration.Dynamic registration = servletContext.addServlet(
-				servletName, servletDispatcher);
+		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, servletDispatcher);
 
 		registration.addMapping(getServletMappings());
 
-		servletContext.setInitParameter("resteasy.servlet.mapping.prefix",
-				"/rest");
-		servletContext.setInitParameter("contextClass",
-				AnnotationConfigWebApplicationContext.class.getName());
-		servletContext.setInitParameter("contextConfigLocation",
-				RootConfiguration.class.getName());
-		servletContext.setInitParameter("javax.ws.rs.Application",
-				RestListAutoConfiguration.class.getName());
+		servletContext.setInitParameter("resteasy.servlet.mapping.prefix", "/rest");
+		servletContext.setInitParameter("contextClass", AnnotationConfigWebApplicationContext.class.getName());
+		servletContext.setInitParameter("contextConfigLocation", RootConfiguration.class.getName());
+		servletContext.setInitParameter("javax.ws.rs.Application", RestListAutoConfiguration.class.getName());
 	}
 
 	@Override
@@ -46,11 +40,11 @@ public class RestAppConfiguration extends
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		return new Class<?>[0];
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return null;
+		return new Class<?>[0];
 	}
 }
