@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -60,4 +61,13 @@ public class SpittleRest {
 		return Response.created(builder.build()).build();
 	}
 
+	@Path("/{id}")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response editSpittle(@PathParam("id") Long id, BasicSpittleDto spittleDto) {
+		Spittle spittle = spittleDto.getEntity();
+		spittle.setId(id);
+		spittleService.save(spittle);
+		return Response.noContent().build();
+	}
 }

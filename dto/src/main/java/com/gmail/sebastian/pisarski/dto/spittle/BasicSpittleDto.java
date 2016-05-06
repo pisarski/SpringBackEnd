@@ -8,8 +8,6 @@ import com.gmail.sebastian.pisarski.entity.Spittle;
 @JsonIgnoreProperties("entity")
 public class BasicSpittleDto extends BaseDto<Spittle> {
 
-	private Long id;
-
 	private String message;
 
 	private String title;
@@ -20,14 +18,6 @@ public class BasicSpittleDto extends BaseDto<Spittle> {
 
 	public BasicSpittleDto() {
 		super(Spittle.class);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getMessage() {

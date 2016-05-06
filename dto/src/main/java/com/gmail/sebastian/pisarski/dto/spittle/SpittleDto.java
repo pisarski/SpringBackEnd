@@ -6,6 +6,8 @@ import com.gmail.sebastian.pisarski.entity.Spittle;
 
 public class SpittleDto extends BasicSpittleDto {
 
+	private Long id;
+
 	private Date time;
 
 	private Long createUserId;
@@ -16,6 +18,14 @@ public class SpittleDto extends BasicSpittleDto {
 
 	public SpittleDto(Spittle entity) {
 		super(entity);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Date getTime() {

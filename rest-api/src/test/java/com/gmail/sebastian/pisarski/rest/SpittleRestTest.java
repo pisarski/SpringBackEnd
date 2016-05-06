@@ -6,6 +6,7 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.jboss.resteasy.mock.MockHttpRequest.get;
 import static org.jboss.resteasy.mock.MockHttpRequest.post;
+import static org.jboss.resteasy.mock.MockHttpRequest.put;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -126,6 +127,17 @@ public class SpittleRestTest extends BaseRestTest {
 		assertThat(response, hasStatus(Status.CREATED));
 		assertThat(response, containsHeaderWithValue("Location", "/spittles/" + savedSpittle.getId()));
 		assertThat(output, equalTo(""));
+	}
+
+	@Test
+	public void shouldUpdateSpittle() throws Exception {
+		// given
+		Spittle spittle = new SpittleBuilder().withAllValuesInitialized().build();
+		MockHttpRequest request = put("/spittles/" + spittle.getId()).contentType(MediaType.APPLICATION_JSON);
+
+		// when
+
+		// then
 	}
 
 	@Override
