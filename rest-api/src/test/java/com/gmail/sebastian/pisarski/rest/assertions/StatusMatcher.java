@@ -12,8 +12,13 @@ public class StatusMatcher {
 		return new BaseMatcher<MockHttpResponse>() {
 
 			@Override
+			public void describeMismatch(Object item, Description description) {
+				super.describeMismatch(Status.fromStatusCode(((MockHttpResponse) item).getStatus()), description);
+			}
+
+			@Override
 			public void describeTo(Description arg) {
-				arg.appendText("status " + status + " expected in response");
+				arg.appendText("status " + status);
 			}
 
 			@Override

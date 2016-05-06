@@ -44,5 +44,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.gmail.sebastian.pisarski</groupId>
+			<artifactId>domain</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

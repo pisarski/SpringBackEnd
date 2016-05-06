@@ -9,9 +9,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
@@ -41,7 +43,11 @@ public class SpittleRest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public SpittleDto getSpittleById(@PathParam("id") Long id) {
-		return new SpittleDto(spittleService.getById(id));
+		Spittle spittle = spittleService.getById(id);
+		if (spittle == null) {
+			throw new WebApplicationException(Status.NOT_FOUND);
+		}
+		return new SpittleDto(spittle);
 	}
 
 	@POST
