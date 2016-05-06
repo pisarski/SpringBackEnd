@@ -12,6 +12,7 @@ import javax.ws.rs.ext.Provider;
 import org.jboss.resteasy.spi.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import com.gmail.sebastian.pisarski.exception.ValidationException;
@@ -30,6 +31,8 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 			return ((Failure) exception).getResponse();
 		} else if (exception instanceof WebApplicationException) {
 			return ((WebApplicationException) exception).getResponse();
+		} else if (exception instanceof AccessDeniedException) {
+			return Response.status(Status.FORBIDDEN).build();
 		} else if (exception instanceof ValidationException) {
 			ValidationException validationException = (ValidationException) exception;
 			return Response.status(Status.BAD_REQUEST).header("X-Status-Reason", "Validation failed")
