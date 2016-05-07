@@ -1,11 +1,8 @@
 package com.gmail.sebastian.pisarski.dto.spittle;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import com.gmail.sebastian.pisarski.dto.BaseDto;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 
-@JsonIgnoreProperties("entity")
 public class BasicSpittleDto extends BaseDto<Spittle> {
 
 	private String message;

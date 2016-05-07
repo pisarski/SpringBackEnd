@@ -1,5 +1,6 @@
 package com.gmail.sebastian.pisarski.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.modelmapper.ModelMapper;
 
 public abstract class BaseDto<T> {
@@ -15,6 +16,7 @@ public abstract class BaseDto<T> {
 		new ModelMapper().map(entity, this);
 	}
 
+	@JsonIgnore
 	public T getEntity() {
 		return new ModelMapper().map(this, clazz);
 	}

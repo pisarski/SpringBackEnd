@@ -26,7 +26,6 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 	@Override
 	public Response toResponse(Exception exception) {
 
-		exception.printStackTrace();
 		if (exception instanceof Failure) {
 			return ((Failure) exception).getResponse();
 		} else if (exception instanceof WebApplicationException) {
@@ -35,8 +34,11 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.status(Status.FORBIDDEN).build();
 		} else if (exception instanceof ValidationException) {
 			ValidationException validationException = (ValidationException) exception;
-			return Response.status(Status.BAD_REQUEST).header("X-Status-Reason", "Validation failed")
-					.type(MediaType.APPLICATION_JSON).entity(validationException.getCustomErrors()).build();
+			return Response.status(Status.BAD_REQUEST)
+					.header("X-Status-Reason", "Validation failed")
+					.type(MediaType.APPLICATION_JSON)
+					.entity(validationException.getCustomErrors())
+					.build();
 		}
 
 		UUID uuid = UUID.randomUUID();
