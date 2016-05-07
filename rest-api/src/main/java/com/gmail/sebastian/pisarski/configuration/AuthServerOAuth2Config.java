@@ -35,7 +35,7 @@ public class AuthServerOAuth2Config {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.requestMatchers().antMatchers("/rest/**").and().authorizeRequests().anyRequest()
-					.access("#oauth2.hasScope('access')");
+					.access("#oauth2.hasScope('trust')");
 		}
 	}
 
@@ -60,7 +60,7 @@ public class AuthServerOAuth2Config {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients.inMemory().withClient("my-client-with-secret")
-					.authorizedGrantTypes("client_credentials", "password").authorities("ROLE_CLIENT").scopes("access")
+					.authorizedGrantTypes("client_credentials", "password").authorities("ROLE_CLIENT").scopes("trust")
 					.resourceIds(RESOURCE_ID).secret("secret");
 		}
 
