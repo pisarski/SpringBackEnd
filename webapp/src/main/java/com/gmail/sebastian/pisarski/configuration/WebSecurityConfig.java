@@ -41,7 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		setUtf8Encoding(http)
-			.exceptionHandling()
+			.csrf()
+				.ignoringAntMatchers("/rest/**")
+			.and().exceptionHandling()
 				.accessDeniedPage("/404")
 			.and().authorizeRequests()
 				.antMatchers("/login*").permitAll()
