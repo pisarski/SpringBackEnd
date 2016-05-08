@@ -1,9 +1,8 @@
 package com.gmail.sebastian.pisarski.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,9 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 import com.gmail.sebastian.pisarski.service.UserAuthService;
 
@@ -26,7 +22,8 @@ public class AuthServerOAuth2Config {
 
 	@Configuration
 	@EnableResourceServer
-	protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+	protected static class ResourceServerConfiguration extends
+			ResourceServerConfigurerAdapter {
 		@Override
 		public void configure(ResourceServerSecurityConfigurer resources) {
 			resources.resourceId(RESOURCE_ID);
@@ -34,16 +31,19 @@ public class AuthServerOAuth2Config {
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
-			http.requestMatchers().antMatchers("/rest/**").and().authorizeRequests().anyRequest()
+			http.requestMatchers().antMatchers("/rest/**").and()
+					.authorizeRequests().anyRequest()
 					.access("#oauth2.hasScope('trust')");
 		}
 	}
 
 	@Configuration
 	@EnableAuthorizationServer
-	protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
+	protected static class AuthorizationServerConfiguration extends
+			AuthorizationServerConfigurerAdapter {
 
-		private TokenStore tokenStore = new InMemoryTokenStore();
+		@Autowired
+		private Environment env;
 
 		@Autowired
 		private AuthenticationManager authenticationManager;
@@ -52,25 +52,21 @@ public class AuthServerOAuth2Config {
 		private UserAuthService userDetailsService;
 
 		@Override
-		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager)
+		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
+				throws Exception {
+			endpoints.authenticationManager(authenticationManager)
 					.userDetailsService(userDetailsService);
 		}
 
 		@Override
-		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			clients.inMemory().withClient("my-client-with-secret")
-					.authorizedGrantTypes("client_credentials", "password").authorities("ROLE_CLIENT").scopes("trust")
-					.resourceIds(RESOURCE_ID).secret("secret");
-		}
-
-		@Bean
-		@Primary
-		public DefaultTokenServices tokenServices() {
-			DefaultTokenServices tokenServices = new DefaultTokenServices();
-			tokenServices.setSupportRefreshToken(true);
-			tokenServices.setTokenStore(this.tokenStore);
-			return tokenServices;
+		public void configure(ClientDetailsServiceConfigurer clients)
+				throws Exception {
+			clients.inMemory()
+					.withClient(env.getProperty("oauth.client"))
+					.authorizedGrantTypes("client_credentials", "password",
+							"refresh_token").scopes("trust")
+					.resourceIds(RESOURCE_ID)
+					.secret(env.getProperty("oauth.client.secret"));
 		}
 	}
 }
