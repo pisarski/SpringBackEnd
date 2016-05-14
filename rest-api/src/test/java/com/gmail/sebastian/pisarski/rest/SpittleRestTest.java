@@ -3,7 +3,6 @@ package com.gmail.sebastian.pisarski.rest;
 import static com.gmail.sebastian.pisarski.rest.assertions.HeaderMatcher.containsHeaderWithValue;
 import static com.gmail.sebastian.pisarski.rest.assertions.StatusMatcher.hasStatus;
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.jboss.resteasy.mock.MockHttpRequest.get;
 import static org.jboss.resteasy.mock.MockHttpRequest.post;
@@ -13,8 +12,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.Collections;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
@@ -32,8 +29,6 @@ import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
 import com.gmail.sebastian.pisarski.dto.spittle.BasicSpittleDto;
 import com.gmail.sebastian.pisarski.dto.spittle.SpittleDto;
 import com.gmail.sebastian.pisarski.entity.Spittle;
-import com.gmail.sebastian.pisarski.exception.CustomError;
-import com.gmail.sebastian.pisarski.exception.ValidationException;
 import com.gmail.sebastian.pisarski.service.SpittleService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -91,27 +86,6 @@ public class SpittleRestTest extends BaseRestTest {
 		String output = response.getContentAsString();
 		assertThat(response, hasStatus(Status.NOT_FOUND));
 		assertThat(output, equalTo(""));
-	}
-
-	@Test
-	public void shouldReportValidationFailure() throws Exception {
-		// given
-		MockHttpRequest request = post("/spittles").content(jsonOf(new BasicSpittleDto()).getBytes())
-				.contentType(MediaType.APPLICATION_JSON);
-
-		CustomError customError = new CustomError("field", "errorCode", Collections.singletonMap("key", "value"),
-				"rejectedValue");
-		ValidationException validationException = new ValidationException(asList(customError));
-		when(spittleService.save(any(Spittle.class))).thenThrow(validationException);
-
-		// when
-		MockHttpResponse response = invoke(request);
-
-		// then
-		String output = response.getContentAsString();
-		assertThat(response, hasStatus(Status.BAD_REQUEST));
-		assertThat(response, containsHeaderWithValue("X-Status-Reason", "Validation failed"));
-		assertThat(output, containsString(jsonOf(validationException.getCustomErrors())));
 	}
 
 	@Test
