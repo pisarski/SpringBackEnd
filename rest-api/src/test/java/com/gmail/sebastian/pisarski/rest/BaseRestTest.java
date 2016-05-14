@@ -14,7 +14,7 @@ public abstract class BaseRestTest {
 	private Dispatcher dispatcher = MockDispatcherFactory.createDispatcher();
 
 	@Before
-	public void setUpTest() {
+	public void setUpTest() throws Exception {
 		setUp();
 		dispatcher.getRegistry().addSingletonResource(getRestService());
 		dispatcher.getProviderFactory().registerProvider(RestExceptionMapper.class);
@@ -34,7 +34,7 @@ public abstract class BaseRestTest {
 		}
 	}
 
-	protected abstract void setUp();
+	protected abstract void setUp() throws Exception;
 
 	protected abstract Object getRestService();
 

@@ -1,5 +1,7 @@
 package com.gmail.sebastian.pisarski.rest.exception;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.WebApplicationException;
@@ -34,10 +36,8 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 			return Response.status(Status.FORBIDDEN).build();
 		} else if (exception instanceof ValidationException) {
 			ValidationException validationException = (ValidationException) exception;
-			return Response.status(Status.BAD_REQUEST)
-					.header("X-Status-Reason", "Validation failed")
-					.type(MediaType.APPLICATION_JSON)
-					.entity(validationException.getCustomErrors())
+			return Response.status(Status.BAD_REQUEST).header("X-Status-Reason", "Validation failed")
+					.type(MediaType.APPLICATION_JSON).entity(validationExceptionToResponseMap(validationException))
 					.build();
 		}
 
@@ -45,6 +45,13 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 		LOGGER.error(uuid.toString(), exception);
 
 		return Response.serverError().entity("Error occured: " + uuid).build();
+	}
+
+	private Map<String, Object> validationExceptionToResponseMap(ValidationException exception) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("Message", "Validation failed");
+		result.put("ValidationErrors", exception.getCustomErrors());
+		return result;
 	}
 
 }
