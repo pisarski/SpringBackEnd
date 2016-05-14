@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -23,11 +22,9 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import com.gmail.sebastian.pisarski.interceptor.CommonVariablesInterceptor;
 
-@Configuration
 @EnableWebMvc
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-@ComponentScan({ "com.gmail.sebastian.pisarski.controller",
-		"com.gmail.sebastian.pisarski.aspect" })
+@ComponentScan({ "com.gmail.sebastian.pisarski.controller", "com.gmail.sebastian.pisarski.aspect" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
@@ -37,8 +34,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public TilesConfigurer tilesConfigurer() {
 		TilesConfigurer tiles = new TilesConfigurer();
 		tiles.setDefinitions("/WEB-INF/layout/tiles.xml");
-		tiles.setCheckRefresh(env.getProperty("tiles.refresh", Boolean.class,
-				false));
+		tiles.setCheckRefresh(env.getProperty("tiles.refresh", Boolean.class, false));
 		return tiles;
 	}
 
@@ -51,8 +47,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Override
-	public void configureDefaultServletHandling(
-			DefaultServletHandlerConfigurer configurer) {
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
 
@@ -79,8 +74,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver() {
 
 			@Override
-			protected View createView(String viewName, Locale locale)
-					throws Exception {
+			protected View createView(String viewName, Locale locale) throws Exception {
 				View view = super.createView(viewName, locale);
 				if (view instanceof RedirectView) {
 					((RedirectView) view).setExposeModelAttributes(false);
