@@ -2,16 +2,13 @@ package com.gmail.sebastian.pisarski.service.impl;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
 import com.gmail.sebastian.pisarski.service.UserAuthService;
 
-public class UserAuthServiceSecurityIntegrationTest extends
-		AbstractSecurityIntegrationTest {
+public class UserAuthServiceSecurityIntegrationTest extends AbstractSecurityIntegrationTest {
 
 	@Autowired
-	@Qualifier("userAuthServiceAdapter")
 	private UserAuthService userAuthService;
 
 	@Test
@@ -23,10 +20,10 @@ public class UserAuthServiceSecurityIntegrationTest extends
 	public void allUsersShouldInvokeLoadUserByUsername() {
 		runWithParams(right -> {
 			// given
-				loginWithRights((UserRight) right);
+			loginWithRights((UserRight) right);
 
-				// when
-				userAuthService.loadUserByUsername("");
-			}, UserRight.values());
+			// when
+			userAuthService.loadUserByUsername("");
+		}, UserRight.values());
 	}
 }

@@ -41,4 +41,9 @@ public class UserServiceAdapter implements UserService {
 		return user;
 	}
 
+	@Override
+	public User getLoggedUser() {
+		return getById(1L);
+	}
+
 }

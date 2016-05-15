@@ -16,6 +16,9 @@ public class SpittleDto extends BasicSpittleDto {
 
 	private Date updateTime;
 
+	public SpittleDto() {
+	}
+
 	public SpittleDto(Spittle entity) {
 		super(entity);
 	}

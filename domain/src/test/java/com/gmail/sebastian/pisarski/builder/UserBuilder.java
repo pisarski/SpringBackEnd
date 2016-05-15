@@ -60,6 +60,7 @@ public class UserBuilder {
 		this.username = "username";
 		this.password = "password";
 		this.rights = Stream.of(UserRight.values()).collect(Collectors.toSet());
+		this.id = 654L;
 
 		return this;
 	}

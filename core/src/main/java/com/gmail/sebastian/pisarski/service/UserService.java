@@ -39,4 +39,6 @@ public interface UserService {
 
 	@PostAuthorize("hasAuthority('USER_MANAGEMENT') and principal.user.id != returnObject.id")
 	User getById(long id);
+	
+	User getLoggedUser();
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
+import com.gmail.sebastian.pisarski.builder.dto.spittle.SpittleDtoBuilder;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 
 public class SpittleDtoTest {
@@ -31,6 +32,19 @@ public class SpittleDtoTest {
 
 	@Test
 	public void shouldReturnProperEntityFromDto() {
-		// TODO
+		// given
+		SpittleDto dto = new SpittleDtoBuilder().withAllValues().build();
+
+		// when
+		Spittle spittle = dto.getEntity();
+
+		// then
+		assertEquals(dto.getCreateUserId(), spittle.getCreateUser().getId());
+		assertEquals(dto.getEditUserId(), spittle.getEditUser().getId());
+		assertEquals(dto.getId(), spittle.getId());
+		assertEquals(dto.getMessage(), spittle.getMessage());
+		assertEquals(dto.getTime(), spittle.getTime());
+		assertEquals(dto.getTitle(), spittle.getTitle());
+		assertEquals(dto.getUpdateTime(), spittle.getUpdateTime());
 	}
 }

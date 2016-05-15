@@ -7,14 +7,12 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,6 +23,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.gmail.sebastian.pisarski.builder.UserBuilder;
@@ -32,9 +32,12 @@ import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.exception.CustomError;
 import com.gmail.sebastian.pisarski.exception.ErrorsContainer;
 import com.gmail.sebastian.pisarski.exception.ValidationException;
+import com.gmail.sebastian.pisarski.pojo.SpittleUserDetails;
 import com.gmail.sebastian.pisarski.repository.UserRepository;
 import com.gmail.sebastian.pisarski.service.UserService;
-import com.gmail.sebastian.pisarski.service.impl.UserServiceImpl;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
 public class UserServiceImplTest {
@@ -110,8 +113,7 @@ public class UserServiceImplTest {
 
 			// then
 		} catch (ValidationException e) {
-			CustomError validationError = getValidationError(e,
-					"user.error.maxNumExceeded", null,
+			CustomError validationError = getValidationError(e, "user.error.maxNumExceeded", null,
 					UserService.MAX_USERS_COUNT);
 			assertNotNull(validationError);
 		}
@@ -200,10 +202,26 @@ public class UserServiceImplTest {
 			fail("ValidationException was expected");
 		} catch (ValidationException e) {
 			// then
-			CustomError validationError = getValidationError(e,
-					"user.username.Unique", "username", null);
+			CustomError validationError = getValidationError(e, "user.username.Unique", "username", null);
 			assertNotNull(validationError);
 		}
+	}
+
+	@Test
+	public void shouldGetLoggedUser() {
+		// given
+		User user = mock(User.class);
+		SpittleUserDetails userDetails = mock(SpittleUserDetails.class);
+		when(userDetails.getUser()).thenReturn(user);
+
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
+
+		// when
+		User loggedUser = userService.getLoggedUser();
+
+		// then
+		assertEquals(user, loggedUser);
 	}
 
 	private User createUser(String username) {
@@ -212,28 +230,22 @@ public class UserServiceImplTest {
 
 	@SuppressWarnings("unused")
 	private Long[] getParametersForShouldThrowExceptionIfUserLimitExceeded() {
-		return new Long[] { UserService.MAX_USERS_COUNT,
-				UserService.MAX_USERS_COUNT + 1 };
+		return new Long[] { UserService.MAX_USERS_COUNT, UserService.MAX_USERS_COUNT + 1 };
 	}
 
-	private CustomError getValidationError(ValidationException e,
-			final String errorCode, final String field, final Object msgValue) {
-		return e.getCustomErrors()
-				.stream()
-				.filter(err -> err.getErrorCode().equals(errorCode)
-						&& err.getField() == field
-						&& (msgValue == null || err.getMessageVariables()[0]
-								.equals(msgValue)))
+	private CustomError getValidationError(ValidationException e, final String errorCode, final String field,
+			final Object msgValue) {
+		return e.getCustomErrors().stream()
+				.filter(err -> err.getErrorCode().equals(errorCode) && err.getField() == field
+						&& (msgValue == null || err.getMessageVariables()[0].equals(msgValue)))
 				.collect(Collectors.toList()).get(0);
 	}
 
 	private void disableValidation() {
-		doAnswer(args -> null).when(userService).validate(any(User.class),
-				any(ErrorsContainer.class));
+		doAnswer(args -> null).when(userService).validate(any(User.class), any(ErrorsContainer.class));
 	}
 
 	private void mockSave() {
-		doAnswer(invocation -> invocation.getArgumentAt(0, User.class)).when(
-				userRepository).save(any(User.class));
+		doAnswer(invocation -> invocation.getArgumentAt(0, User.class)).when(userRepository).save(any(User.class));
 	}
 }

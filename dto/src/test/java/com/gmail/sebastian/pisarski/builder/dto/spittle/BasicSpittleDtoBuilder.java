@@ -23,8 +23,12 @@ public class BasicSpittleDtoBuilder {
 
 	public BasicSpittleDto build() {
 		BasicSpittleDto dto = new BasicSpittleDto();
+		setFields(dto);
+		return dto;
+	}
+
+	protected void setFields(BasicSpittleDto dto) {
 		dto.setMessage(message);
 		dto.setTitle(title);
-		return dto;
 	}
 }

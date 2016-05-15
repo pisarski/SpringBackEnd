@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,18 +34,18 @@ import org.mockito.Spy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.gmail.sebastian.pisarski.builder.SpittleBuilder;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
 import com.gmail.sebastian.pisarski.exception.ErrorsContainer;
-import com.gmail.sebastian.pisarski.pojo.SpittleUserDetails;
 import com.gmail.sebastian.pisarski.repository.SpittleRepository;
 import com.gmail.sebastian.pisarski.service.SpittleService;
-import com.gmail.sebastian.pisarski.service.impl.SpittleServiceImpl;
+import com.gmail.sebastian.pisarski.service.UserService;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 @RunWith(JUnitParamsRunner.class)
 public class SplittleServiceImplTest {
@@ -57,7 +54,7 @@ public class SplittleServiceImplTest {
 	private SpittleRepository spittleRepository;
 
 	@Mock
-	private SpittleUserDetails userDetails;
+	private UserService userService;
 
 	@InjectMocks
 	@Spy
@@ -69,7 +66,6 @@ public class SplittleServiceImplTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		setSecurityContext();
 	}
 
 	@Test
@@ -89,8 +85,7 @@ public class SplittleServiceImplTest {
 		// then
 		assertThat(result, hasSize(4));
 		for (int i = 0; i < result.size(); i++) {
-			assertThat(result.get(i).getMessage(), equalTo("M"
-					+ (result.size() - 1 - i)));
+			assertThat(result.get(i).getMessage(), equalTo("M" + (result.size() - 1 - i)));
 		}
 	}
 
@@ -120,8 +115,7 @@ public class SplittleServiceImplTest {
 		spittleService.save(spittle);
 
 		// then
-		ArgumentCaptor<Spittle> spittleCaptor = ArgumentCaptor
-				.forClass(Spittle.class);
+		ArgumentCaptor<Spittle> spittleCaptor = ArgumentCaptor.forClass(Spittle.class);
 		verify(spittleRepository).save(spittleCaptor.capture());
 		Spittle captured = spittleCaptor.getValue();
 		assertNotNull(captured.getTime());
@@ -140,8 +134,7 @@ public class SplittleServiceImplTest {
 		Page<Spittle> pageMock = mock(Page.class);
 		List<Spittle> spittles = new ArrayList<>();
 		when(pageMock.getContent()).thenReturn(spittles);
-		when(spittleRepository.findAll(any(Pageable.class))).thenReturn(
-				pageMock);
+		when(spittleRepository.findAll(any(Pageable.class))).thenReturn(pageMock);
 
 		// when
 		spittleService.save(getSpittle(new Date(), "msg"));
@@ -174,7 +167,7 @@ public class SplittleServiceImplTest {
 		spittle.setId(id);
 		spittle.setCreateUser(loggedUser);
 
-		when(userDetails.getUser()).thenReturn(loggedUser);
+		when(userService.getLoggedUser()).thenReturn(loggedUser);
 		when(spittleRepository.findOne(id)).thenReturn(spittle);
 		mockSave();
 
@@ -209,32 +202,21 @@ public class SplittleServiceImplTest {
 		Spittle toSave = new Spittle();
 		toSave.setId(id);
 
-		when(userDetails.getUser()).thenReturn(loggedUser);
+		when(userService.getLoggedUser()).thenReturn(loggedUser);
 		when(spittleRepository.findOne(id)).thenReturn(spittle);
 
 		// then
 		expected.expect(AccessDeniedException.class);
-		expected.expectMessage("User with id = " + loggedUser.getId()
-				+ "donesn't have access to Spittle with id = "
+		expected.expectMessage("User with id = " + loggedUser.getId() + "donesn't have access to Spittle with id = "
 				+ spittle.getId());
 
 		// when
 		spittleService.save(toSave);
 	}
 
-	private void setSecurityContext() {
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(userDetails, null,
-						userDetails.getAuthorities()));
-	}
-
 	private Spittle getSpittle(Date date, String msg) {
-		return new SpittleBuilder()
-			.withMessage(msg)
-			.withTime(date)
-			.withTitle("title")
-			.withCreateUser(new User())
-			.build();
+		return new SpittleBuilder().withMessage(msg).withTime(date).withTitle("title").withCreateUser(new User())
+				.build();
 	}
 
 	private Date toDate(String date) {
@@ -247,25 +229,22 @@ public class SplittleServiceImplTest {
 	}
 
 	private void disableValidation() {
-		doAnswer(args -> null).when(spittleService).validate(any(User.class),
-				any(ErrorsContainer.class));
+		doAnswer(args -> null).when(spittleService).validate(any(User.class), any(ErrorsContainer.class));
 	}
 
 	private void mockSave() {
-		doAnswer(invocation -> invocation.getArgumentAt(0, Spittle.class))
-				.when(spittleRepository).save(any(Spittle.class));
+		doAnswer(invocation -> invocation.getArgumentAt(0, Spittle.class)).when(spittleRepository)
+				.save(any(Spittle.class));
 	}
 
 	@SuppressWarnings("unused")
 	private Object[] getParametersForShouldEditSpittle() {
 		User editAllSpittlesUser = new User();
-		editAllSpittlesUser.setRights(Stream.of(UserRight.EDIT_ALL_SPITTLES)
-				.collect(Collectors.toSet()));
+		editAllSpittlesUser.setRights(Stream.of(UserRight.EDIT_ALL_SPITTLES).collect(Collectors.toSet()));
 
 		User spittleCreator = new User();
 		spittleCreator.setId(6584L);
-		spittleCreator.setRights(Stream.of(UserRight.EDIT_OWN_SPITTLE).collect(
-				Collectors.toSet()));
+		spittleCreator.setRights(Stream.of(UserRight.EDIT_OWN_SPITTLE).collect(Collectors.toSet()));
 
 		return $(editAllSpittlesUser, spittleCreator);
 	}
@@ -273,16 +252,13 @@ public class SplittleServiceImplTest {
 	@SuppressWarnings("unused")
 	private Object[] getParametersForShouldThrowExceptionIfUserNotPermitedToEdit() {
 		User noEditPermsUser = new User();
-		noEditPermsUser.setRights(Stream
-				.of(UserRight.values())
-				.filter(right -> right != UserRight.EDIT_ALL_SPITTLES
-						&& right != UserRight.EDIT_OWN_SPITTLE)
+		noEditPermsUser.setRights(Stream.of(UserRight.values())
+				.filter(right -> right != UserRight.EDIT_ALL_SPITTLES && right != UserRight.EDIT_OWN_SPITTLE)
 				.collect(Collectors.toSet()));
 
 		User otherSpittleCreator = new User();
 		otherSpittleCreator.setId(6584L);
-		otherSpittleCreator.setRights(Stream.of(UserRight.EDIT_OWN_SPITTLE)
-				.collect(Collectors.toSet()));
+		otherSpittleCreator.setRights(Stream.of(UserRight.EDIT_OWN_SPITTLE).collect(Collectors.toSet()));
 
 		return $(noEditPermsUser, otherSpittleCreator);
 	}

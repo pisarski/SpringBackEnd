@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.exception.ErrorsContainer;
+import com.gmail.sebastian.pisarski.pojo.SpittleUserDetails;
 import com.gmail.sebastian.pisarski.repository.UserRepository;
 import com.gmail.sebastian.pisarski.service.UserService;
 
 @Service
-@Transactional
 public class UserServiceImpl extends BaseService implements UserService {
 
 	@Autowired
@@ -30,6 +31,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 		return userRepository.findAll();
 	}
 
+	@Transactional
 	@Override
 	public User save(User user) {
 		ErrorsContainer errors = new ErrorsContainer();
@@ -76,10 +78,16 @@ public class UserServiceImpl extends BaseService implements UserService {
 		return userRepository.findOne(id);
 	}
 
+	@Override
+	public User getLoggedUser() {
+		SpittleUserDetails userDetails = (SpittleUserDetails) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+		return userDetails.getUser();
+	}
+
 	private boolean usernameIsUnique(User user) {
 		User existingUser = findByUsername(user.getUsername());
-		return existingUser == null
-				|| existingUser.getId().equals(user.getId());
+		return existingUser == null || existingUser.getId().equals(user.getId());
 	}
 
 }

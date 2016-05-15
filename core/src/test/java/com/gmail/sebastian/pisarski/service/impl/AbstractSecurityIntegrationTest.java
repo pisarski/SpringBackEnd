@@ -15,15 +15,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.gmail.sebastian.pisarski.configuration.RootConfiguration;
+import com.gmail.sebastian.pisarski.configuration.DevDbConfig;
+import com.gmail.sebastian.pisarski.configuration.DomainConfiguration;
 import com.gmail.sebastian.pisarski.configuration.TestSecurityConfiguration;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
 import com.gmail.sebastian.pisarski.pojo.SpittleUserDetails;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestSecurityConfiguration.class,
-		RootConfiguration.class })
+@ContextConfiguration(classes = { TestSecurityConfiguration.class, DomainConfiguration.class, DevDbConfig.class })
 @ActiveProfiles("test")
 public abstract class AbstractSecurityIntegrationTest {
 
@@ -47,24 +47,21 @@ public abstract class AbstractSecurityIntegrationTest {
 
 	protected void loginAsUser(User user) {
 		SpittleUserDetails details = new SpittleUserDetails(user);
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(details, null, details
-						.getAuthorities()));
+		SecurityContextHolder.getContext()
+				.setAuthentication(new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities()));
 	}
 
 	protected void runWithParams(Run run, Object[] params) {
 		runWithParamsAndExpectedException(run, params, null);
 	}
 
-	protected void runWithParamsAndExpectedException(Run run, Object[] params,
-			Class<? extends Throwable> expected) {
+	protected void runWithParamsAndExpectedException(Run run, Object[] params, Class<? extends Throwable> expected) {
 		for (Object param : params) {
 			try {
 				System.out.println("Run with param: " + param);
 				run.run(param);
 				if (expected != null) {
-					throw new RuntimeException("Exception "
-							+ expected.getName() + "was expected");
+					throw new RuntimeException("Exception " + expected.getName() + "was expected");
 				}
 			} catch (Throwable e) {
 				if (expected == null || !expected.isInstance(e)) {
