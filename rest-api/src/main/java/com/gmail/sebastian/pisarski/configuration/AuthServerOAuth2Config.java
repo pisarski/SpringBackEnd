@@ -33,7 +33,7 @@ public class AuthServerOAuth2Config {
 		public void configure(HttpSecurity http) throws Exception {
 			http.requestMatchers().antMatchers("/rest/**").and()
 					.authorizeRequests()
-					.antMatchers("/rest/api-docs", "/rest/swagger.json").permitAll()
+					.antMatchers("/rest/swagger.json").permitAll()
 					.anyRequest()
 					.access("#oauth2.hasScope('trust')");
 		}
