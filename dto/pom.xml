@@ -19,6 +19,10 @@
 			<artifactId>modelmapper</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jaxrs</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.gmail.sebastian.pisarski</groupId>
 			<artifactId>domain</artifactId>
 			<type>test-jar</type>

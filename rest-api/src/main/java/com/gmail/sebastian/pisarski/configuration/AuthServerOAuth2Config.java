@@ -32,7 +32,9 @@ public class AuthServerOAuth2Config {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.requestMatchers().antMatchers("/rest/**").and()
-					.authorizeRequests().anyRequest()
+					.authorizeRequests()
+					.antMatchers("/rest/api-docs", "/rest/swagger.json").permitAll()
+					.anyRequest()
 					.access("#oauth2.hasScope('trust')");
 		}
 	}
@@ -69,4 +71,5 @@ public class AuthServerOAuth2Config {
 					.secret(env.getProperty("oauth.client.secret"));
 		}
 	}
+	
 }

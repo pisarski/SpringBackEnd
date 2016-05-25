@@ -26,6 +26,10 @@ import com.gmail.sebastian.pisarski.dto.spittle.SpittleDto;
 import com.gmail.sebastian.pisarski.entity.Spittle;
 import com.gmail.sebastian.pisarski.service.SpittleService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "/spittles")
 @Path("spittles")
 @Component
 public class SpittleRest {
@@ -35,6 +39,8 @@ public class SpittleRest {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Lists all spittles", 
+		notes = "Results are sorted, so that newest spittles are first")
 	public List<SpittleDto> list() {
 		return spittleService.findAllSorted().stream().map(spittle -> new SpittleDto(spittle))
 				.collect(Collectors.toList());
