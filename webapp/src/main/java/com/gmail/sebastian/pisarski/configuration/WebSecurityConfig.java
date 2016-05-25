@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login*").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/spittle/list").permitAll()
+				.antMatchers("/rest/api-docs", "/rest/swagger.json").permitAll()
 			.and().formLogin()
 				.loginPage("/login").permitAll()
 				.loginProcessingUrl("/login.do")
