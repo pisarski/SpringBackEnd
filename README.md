@@ -2,7 +2,7 @@
 
 This is sample application which is used to play with technology.
 
-After each merge, content is deployed to http://tomcat-pisarski.rhcloud.com/SpringSampleApp.
+After each merge, content is deployed to http://tomcat-pisarski.rhcloud.com/SpringSampleApp. It is deployed to openshift on free account, so it will go idle after 24 hours. When you access mentioned link you can get 503 Service Unavaliable. Just refresh page once again and application should respons (openshift will start VM).
 
 It was inspired by [Spring in Action 4th Edition](http://www.amazon.com/Spring-Action-Craig-Walls/dp/161729120X)
 
@@ -33,4 +33,24 @@ To run this project locally, please download tomcat 7 and do the following:
 ```
 		   
  4. add tomcat to your IDE and start application, or build it using maven and manually deploy _SpringSampleApp.war_ from _webapp_ project. You can access spittr on https://localhost:8443/SpringSampleApp
- 
+
+# REST API
+Swagger documentation of REST API can be found here: https://tomcat-pisarski.rhcloud.com/SpringSampleApp/api-doc/. To try it you have to do one of the following:
+
+ - login to Spittr - then you will be invoking REST calls as logged user
+ - use oauth access_token
+
+# OAuth 2
+OAuth was configured to support the following grant types:
+
+ - client credentials
+ - password
+ - refresh token
+
+Client login and password are **spittr**.
+
+To get access token please send POST request to the following address: 
+https://tomcat-pisarski.rhcloud.com/SpringSampleApp/oauth/token?grant_type=XXX
+with Basic Auth hedaer set to client login & password (spittr:spittr).
+
+
