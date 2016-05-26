@@ -1,11 +1,15 @@
 package com.gmail.sebastian.pisarski.dto.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Set;
 
 import com.gmail.sebastian.pisarski.dto.BaseDto;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.entity.enums.UserRight;
 
+@ApiModel(description = "Contains all data used for adding/editing users")
 public class BasicUserDto extends BaseDto<User> {
 
 	private String firstName;
@@ -21,6 +25,7 @@ public class BasicUserDto extends BaseDto<User> {
 		super(user, User.class);
 	}
 
+	@ApiModelProperty(required = true)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -29,6 +34,7 @@ public class BasicUserDto extends BaseDto<User> {
 		this.firstName = firstName;
 	}
 
+	@ApiModelProperty(required = true)
 	public String getLastName() {
 		return lastName;
 	}
@@ -37,6 +43,7 @@ public class BasicUserDto extends BaseDto<User> {
 		this.lastName = lastName;
 	}
 
+	@ApiModelProperty(required = true)
 	public String getUsername() {
 		return username;
 	}
@@ -45,6 +52,7 @@ public class BasicUserDto extends BaseDto<User> {
 		this.username = username;
 	}
 
+	@ApiModelProperty(required = true)
 	public Set<UserRight> getRights() {
 		return rights;
 	}

@@ -1,9 +1,13 @@
 package com.gmail.sebastian.pisarski.dto.spittle;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 import com.gmail.sebastian.pisarski.entity.Spittle;
 
+@ApiModel(description = "Full information about spittle")
 public class SpittleDto extends BasicSpittleDto {
 
 	private Long id;
@@ -23,6 +27,7 @@ public class SpittleDto extends BasicSpittleDto {
 		super(entity);
 	}
 
+	@ApiModelProperty(readOnly = true)
 	public Long getId() {
 		return id;
 	}
@@ -31,6 +36,7 @@ public class SpittleDto extends BasicSpittleDto {
 		this.id = id;
 	}
 
+	@ApiModelProperty(readOnly = true)
 	public Date getTime() {
 		return time;
 	}
@@ -39,6 +45,7 @@ public class SpittleDto extends BasicSpittleDto {
 		this.time = time;
 	}
 
+	@ApiModelProperty(readOnly = true)
 	public Long getCreateUserId() {
 		return createUserId;
 	}
@@ -47,6 +54,7 @@ public class SpittleDto extends BasicSpittleDto {
 		this.createUserId = createUserId;
 	}
 
+	@ApiModelProperty(readOnly = true)
 	public Long getEditUserId() {
 		return editUserId;
 	}
@@ -55,6 +63,7 @@ public class SpittleDto extends BasicSpittleDto {
 		this.editUserId = editUserId;
 	}
 
+	@ApiModelProperty(readOnly = true)
 	public Date getUpdateTime() {
 		return updateTime;
 	}

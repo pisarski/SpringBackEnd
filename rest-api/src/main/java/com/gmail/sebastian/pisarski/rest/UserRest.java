@@ -1,5 +1,11 @@
 package com.gmail.sebastian.pisarski.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +32,7 @@ import com.gmail.sebastian.pisarski.dto.user.UserDto;
 import com.gmail.sebastian.pisarski.entity.User;
 import com.gmail.sebastian.pisarski.service.UserService;
 
+@Api("/users")
 @Path("users")
 @Component
 public class UserRest {
@@ -35,13 +42,16 @@ public class UserRest {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation("Returns list of all users")
 	public List<UserDto> getUsers() {
-		return userService.findAll().stream().map(u -> new UserDto(u)).collect(Collectors.toList());
+		return userService.findAll().stream().map(u -> new UserDto(u))
+				.collect(Collectors.toList());
 	}
 
 	@Path("/me")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation("Returns logged user")
 	public UserDto getLoggedUser() {
 		return new UserDto(userService.getLoggedUser());
 	}
@@ -49,7 +59,12 @@ public class UserRest {
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserDto getById(@PathParam("id") Long id) {
+	@ApiOperation("Returns user with given id")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "User was found and returned"),
+			@ApiResponse(code = 404, message = "User not found") })
+	public UserDto getById(
+			@PathParam("id") @ApiParam(value = "id of the user", required = true) Long id) {
 		User user = userService.getById(id);
 		if (user == null) {
 			throw new WebApplicationException(Status.NOT_FOUND);
@@ -59,7 +74,12 @@ public class UserRest {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addUser(BasicUserDto userDto, @Context UriInfo uriInfo) {
+	@ApiOperation("Creates new user")
+	@ApiResponses({ @ApiResponse(code = 204, message = "User was created"),
+			@ApiResponse(code = 400, message = "Validation failed") })
+	public Response addUser(
+			@ApiParam(value = "User to be added", required = true) BasicUserDto userDto,
+			@Context UriInfo uriInfo) {
 		User user = userDto.getEntity();
 		User savedUser = userService.save(user);
 		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
@@ -70,7 +90,13 @@ public class UserRest {
 	@Path("/{id}")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editSpittle(@PathParam("id") Long id, BasicUserDto userDto) {
+	@ApiOperation("Edits user")
+	@ApiResponses({
+			@ApiResponse(code = 204, message = "User was successfully updated"),
+			@ApiResponse(code = 400, message = "Validation failed") })
+	public Response editSpittle(
+			@PathParam("id") @ApiParam(value = "Id of user to be edited", required = true) Long id,
+			@ApiParam(value = "User data", required = true) BasicUserDto userDto) {
 		User user = userDto.getEntity();
 		user.setId(id);
 		userService.save(user);
