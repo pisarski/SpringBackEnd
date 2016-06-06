@@ -39,12 +39,14 @@ public class DomainConfiguration {
 	}
 
 	private void setJpaProperties(LocalContainerEntityManagerFactoryBean emfb) {
-		Boolean dropDbOnStar = env.getProperty("db.dropDbOnStar",
+		Boolean dropDbOnStar = env.getProperty("db.dropDbOnStart",
 				Boolean.class, false);
 
 		if (Boolean.TRUE.equals(dropDbOnStar)) {
 			Properties properties = new Properties();
 			properties.setProperty("hibernate.hbm2ddl.auto", "create");
+
+			emfb.setJpaProperties(properties);
 		}
 	}
 
